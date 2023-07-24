@@ -1,12 +1,39 @@
-from marshmallow import Schema, Length, fields
+from marshmallow import fields, Length, Schema, ValidationError
+
+custom_errors = {
+    "required": "{field_name} is required.",
+    "invalid_length": "{field_name} exceeds the maximum length."
+}
 
 
 class ProjectSchema(Schema):
-
+    account_id = fields.Integer(
+        required=True,
+        error_messages={
+            "required": custom_errors["required"].format(field_name="Account ID")
+        }
+    )
     project_id = fields.Integer(dump_only=True)
-    project_name = fields.Str(required=True)
-    description = fields.Str(required=True, validate=Length(max=250))
-    started_at = fields.DateTime(required=True)
+    project_name = fields.Str(
+            required=True,
+            error_messages={
+                "required": custom_errors["required"].format(field_name="Project name")
+        }
+    )
+    description = fields.Str(
+        required=True, 
+        validate=Length(max=250),
+        error_messages={
+            "required": custom_errors["required"].format(field_name="Description"),
+            "invalid": custom_errors["invalid_length"].format(field_name="Description")
+        }
+    )
+    started_at = fields.DateTime(
+        required=True,
+        error_messages={
+            "required": custom_errors["required"].format(field_name="Start date")
+        }
+    )
     completed_at = fields.DateTime(allow_none=True)
     hours_spent = fields.Float(allow_none=True)
     materials_cost = fields.Float(allow_none=True)
@@ -15,4 +42,3 @@ class ProjectSchema(Schema):
     gemstones = fields.List(fields.Str(), default=[])
     shape = fields.Str(allow_none=True)
     jewelry_type = fields.Str(allow_none=True)
-    account_id = fields.Integer(required=True)
