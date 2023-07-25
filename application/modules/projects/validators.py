@@ -7,22 +7,23 @@ custom_errors = {
 
 
 class ProjectSchema(Schema):
-    account_id = fields.Integer(
+    # Using ObjectId which is a hex string
+    account_id = fields.String(
         required=True,
         error_messages={
             "required": custom_errors["required"].format(field_name="Account ID")
         }
     )
-    project_id = fields.Integer(dump_only=True)
+    project_id = fields.String(dump_only=True)
     project_name = fields.Str(
-            required=True,
-            error_messages={
-                "required": custom_errors["required"].format(field_name="Project name")
+        required=True,
+        error_messages={
+            "required": custom_errors["required"].format(field_name="Project name")
         }
     )
     description = fields.Str(
         required=True, 
-        validate=Length(max=250),
+        validate=Length(max=300),
         error_messages={
             "required": custom_errors["required"].format(field_name="Description"),
             "invalid": custom_errors["invalid_length"].format(field_name="Description")
