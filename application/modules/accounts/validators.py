@@ -1,36 +1,65 @@
-from marshmallow import fields, Schema, ValidationError
+from marshmallow import fields, Length, Schema, ValidationError
 
-custom_errors = {
-    "required": "{field_name} is required.",
-    "invalid_email": "{field_name} must be a valid email."
-}
+
+def validate_not_only_whitespace(data):
+    """Ensure the provided data isn't just whitespace."""
+    if data.strip() == "":
+        raise ValidationError("Field cannot consist solely of whitespace.")
+
 
 class AccountSchema(Schema):
-    # account_id is the ObjectId stored as a string
-    # dump_only means that account_id will only be used when serializing the object but not when loading (or deserializing) it
+    # account_id is the ObjectId stored as a string.
+    # dump_only means that account_id will only be used when serializing
+    # the object but not when loading (or deserializing) it.
     account_id = fields.String(dump_only=True)
+    
     first_name = fields.Str(
         required=True,
+        validate=[
+            Length(min=1, error="Field cannot be empty."),
+            validate_not_only_whitespace
+        ],
         error_messages={
-            "required": custom_errors["required"].format(field_name="First name")
+            "required": "First name is required."
         }
     )
+    
     last_name = fields.Str(
         required=True,
+        validate=[
+            Length(min=1, error="Field cannot be empty."),
+            validate_not_only_whitespace
+        ],
         error_messages={
-            "required": custom_errors["required"].format(field_name="Last name")
+            "required": "Last name is required."
         }
     )
+    
     email = fields.Email(
         required=True,
         error_messages={
-            "required": custom_errors["required"].format(field_name="Email"),
-            "invalid": custom_errors["invalid_email"].format(field_name="Email")
+            "required": "Email is required.",
         }
     )
-    zipcode = fields.Int(
+    
+    # Storing zipcodes as strings in case there are international users.
+    zipcode = fields.Str(
         required=True,
+        validate=[
+            Length(min=3, max=10),
+            validate_not_only_whitespace
+        ],
         error_messages={
-            "required": custom_errors["required"].format(field_name="Zipcode")
+            "required": "Zipcode is required."
         }
     )
+
+
+def validate_account(data):
+    """Validates account data against the AccountSchema."""
+    schema = AccountSchema()
+    try:
+        validated_data = schema.load(data)
+        return validated_data
+    except ValidationError as error:
+        return error.messages
