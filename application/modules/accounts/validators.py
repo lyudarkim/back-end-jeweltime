@@ -1,6 +1,6 @@
 from marshmallow import fields, Schema, ValidationError
 from marshmallow.validate import Length
-from application.utils.helpers import validate_not_only_whitespace
+from application.utils.helpers import validate_not_empty_or_whitespace
 
 
 class AccountSchema(Schema):
@@ -11,10 +11,7 @@ class AccountSchema(Schema):
     
     first_name = fields.Str(
         required=True,
-        validate=[
-            Length(min=1, error="Field cannot be empty."),
-            validate_not_only_whitespace
-        ],
+        validate=validate_not_empty_or_whitespace,
         error_messages={
             "required": "First name is required."
         }
@@ -22,10 +19,7 @@ class AccountSchema(Schema):
     
     last_name = fields.Str(
         required=True,
-        validate=[
-            Length(min=1, error="Field cannot be empty."),
-            validate_not_only_whitespace
-        ],
+        validate=validate_not_empty_or_whitespace,
         error_messages={
             "required": "Last name is required."
         }
@@ -43,7 +37,7 @@ class AccountSchema(Schema):
         required=True,
         validate=[
             Length(min=3, max=10),
-            validate_not_only_whitespace
+            validate_not_empty_or_whitespace
         ],
         error_messages={
             "required": "Zipcode is required."

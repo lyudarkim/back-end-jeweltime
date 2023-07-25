@@ -1,38 +1,43 @@
 from marshmallow import fields, Schema, ValidationError
 from marshmallow.validate import Length
-from application.utils.helpers import validate_not_only_whitespace
+from application.utils.helpers import validate_not_empty_or_whitespace
 
 
 class ProjectSchema(Schema):
     # Using ObjectId which is a hex string.
     account_id = fields.String(
         required=True,
-        error_messages={"required": "Account ID is required."}
+        error_messages={
+            "required": "Account ID is required."
+        }
     )
     
     project_id = fields.String(dump_only=True)
     
     project_name = fields.Str(
         required=True,
-        validate=[
-            Length(min=1, error="Field cannot be empty."),
-            validate_not_only_whitespace
-        ],
-        error_messages={"required": "Project name is required."}
+        validate=validate_not_empty_or_whitespace,
+        error_messages={
+            "required": "Project name is required."
+        }
     )
     
     description = fields.Str(
         required=True,
         validate=[
             Length(max=300, error="Description exceeds the maximum length."),
-            validate_not_only_whitespace
+            validate_not_empty_or_whitespace
         ],
-        error_messages={"required": "Description is required."}
+        error_messages={
+            "required": "Description is required."
+        }
     )
     
     started_at = fields.DateTime(
         required=True,
-        error_messages={"required": "Start date is required."}
+        error_messages={
+            "required": "Start date is required."
+        }
     )
     
     completed_at = fields.DateTime(allow_none=True)
