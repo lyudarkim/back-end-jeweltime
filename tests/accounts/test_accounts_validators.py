@@ -19,6 +19,21 @@ def test_first_name_is_not_empty_string():
     assert excinfo.value.messages['first_name'] == ["Field cannot be empty or consist solely of whitespace."]
 
 
+def test_first_name_is_not_whitespace_only():     
+    schema = AccountSchema()
+    data = {
+        "first_name": "     ",  
+        "last_name": "Didion",
+        "email": "juniper@didion.com",
+        "zipcode": "98104"
+    }
+    
+    with pytest.raises(ValidationError) as excinfo:
+        schema.load(data)
+
+    assert excinfo.value.messages['first_name'] == ["Field cannot be empty or consist solely of whitespace."]
+
+
 def test_first_name_field_is_required():
     schema = AccountSchema()
     data = {
@@ -39,6 +54,21 @@ def test_last_name_is_not_empty_string():
     data = {
         "first_name": "Juniper",
         "last_name": "",  
+        "email": "juniper@didion.com",
+        "zipcode": "98104"
+    }
+    
+    with pytest.raises(ValidationError) as excinfo:
+        schema.load(data)
+
+    assert excinfo.value.messages['last_name'] == ["Field cannot be empty or consist solely of whitespace."]
+
+
+def test_last_name_is_not_whitespace_only():     
+    schema = AccountSchema()
+    data = {
+        "first_name": "Juniper",
+        "last_name": "     ",  
         "email": "juniper@didion.com",
         "zipcode": "98104"
     }
@@ -76,6 +106,22 @@ def test_email_is_not_empty_string():
     with pytest.raises(ValidationError) as excinfo:
         schema.load(data)
 
+    assert excinfo.value.messages['email'] == ["Not a valid email address."]
+
+
+def test_email_is_not_whitespace_only():     
+    schema = AccountSchema()
+    data = {
+        "first_name": "Juniper",
+        "last_name": "Didion",
+        "email": "     ",  
+        "zipcode": "98104"
+    }
+    
+    with pytest.raises(ValidationError) as excinfo:
+        schema.load(data)
+
+    # Whitespace only for email will still trigger "Not a valid email address."
     assert excinfo.value.messages['email'] == ["Not a valid email address."]
 
 
