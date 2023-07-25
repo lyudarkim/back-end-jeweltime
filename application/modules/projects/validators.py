@@ -43,3 +43,12 @@ class ProjectSchema(Schema):
     shape = fields.Str(allow_none=True)
     jewelry_type = fields.Str(allow_none=True)
 
+
+def validate_project(data):
+    """Validates project data against the ProjectSchema."""
+    schema = ProjectSchema()
+    try:
+        validated_data = schema.load(data)
+        return validated_data
+    except ValidationError as error:
+        return error.messages
