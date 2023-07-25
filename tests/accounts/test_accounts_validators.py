@@ -61,3 +61,33 @@ def test_last_name_field_is_required():
         schema.load(data)
 
     assert excinfo.value.messages['last_name'] == ["Last name is required."]
+
+
+# Tests for email
+def test_email_is_not_empty_string():     
+    schema = AccountSchema()
+    data = {
+        "first_name": "Juniper",
+        "last_name": "Didion",
+        "email": "",   
+        "zipcode": "98104"
+    }
+    
+    with pytest.raises(ValidationError) as excinfo:
+        schema.load(data)
+
+    assert excinfo.value.messages['email'] == ["Not a valid email address."]
+
+
+def test_email_field_is_required():
+    schema = AccountSchema()
+    data = {
+        "first_name": "Juniper",
+        "last_name": "Didion",
+        "zipcode": "98104"
+    }
+    
+    with pytest.raises(ValidationError) as excinfo:
+        schema.load(data)
+
+    assert excinfo.value.messages['email'] == ["Email is required."]
