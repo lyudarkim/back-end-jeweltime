@@ -1,6 +1,16 @@
 from application.modules.accounts.validators import validate_account
 
 
+def test_valid_account_data(base_account_data):
+    data = base_account_data.copy()
+    validated_data = validate_account(data)
+
+    assert validated_data["first_name"] == data["first_name"]
+    assert validated_data["last_name"] == data["last_name"]
+    assert validated_data["email"] == data["email"]
+    assert validated_data["zipcode"] == data["zipcode"]
+
+
 # Tests for first_name
 def test_first_name_is_not_empty_string(base_account_data):     
     data = base_account_data.copy()
@@ -76,6 +86,13 @@ def test_email_field_is_required(base_account_data):
     assert errors['email'] == ["Email is required."]
 
 
+def test_valid_email_format(base_account_data):
+    data = base_account_data.copy()
+    validated_data = validate_account(data)
+
+    assert validated_data["email"] == data["email"]
+
+
 # Tests for zipcode
 def test_zipcode_is_not_empty_string(base_account_data):     
     data = base_account_data.copy()
@@ -115,3 +132,19 @@ def test_zipcode_reaches_minimum_length(base_account_data):
     
     errors = validate_account(data)
     assert errors['zipcode'] == ["Length must be between 3 and 10."]
+
+
+def test_zipcode_with_min_length(base_account_data):
+    data = base_account_data.copy()
+    data["zipcode"] = "AHA"
+    validated_data = validate_account(data)
+
+    assert validated_data["zipcode"] == data["zipcode"]
+
+
+def test_zipcode_with_max_length(base_account_data):
+    data = base_account_data.copy()
+    data["zipcode"] = "1234567890"
+    validated_data = validate_account(data)
+
+    assert validated_data["zipcode"] == data["zipcode"]
