@@ -11,7 +11,6 @@ def base_account_data():
         "last_name": "Moon",
         "email": "juniper.moon@gmail.com",
         "zipcode": "98104",
-        # "account_id": "759ac5f0377b7ec8bcf7f3ce4fd8e915142d6f5164821922"
     }
 
 @pytest.fixture
