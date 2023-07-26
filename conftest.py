@@ -1,5 +1,4 @@
 import pytest
-from marshmallow import ValidationError
 from application.modules.accounts.validators import AccountSchema
 from application.modules.projects.validators import ProjectSchema
 
