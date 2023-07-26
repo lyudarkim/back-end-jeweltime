@@ -66,3 +66,12 @@ def test_account_id_is_required(base_project_data):
     
     errors = validate_project(data)
     assert errors['account_id'] == ["Account ID is required."]
+
+
+# Tests for started_at
+def test_started_at_is_required(base_project_data):
+    data = base_project_data.copy()
+    del data["started_at"]
+    
+    errors = validate_project(data)
+    assert errors['started_at'] == ["Start date is required."]
