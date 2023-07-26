@@ -8,8 +8,13 @@ def create_app(test_config=None):
     CORS(app)
     app.config['CORS_HEADERS'] = 'Content-Type'
 
+    # Use test_config to determine which database to connect to
+    testing = False
+    if test_config:
+        testing = True
+
     # Initialize the connection to MongoDB using Flask-PyMongo
-    mongodb_client = setup_db_connection(app)
+    mongodb_client = setup_db_connection(app, testing)
 
     # Register Blueprints 
     from .modules.accounts.routes import accounts_bp
