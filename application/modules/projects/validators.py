@@ -1,4 +1,4 @@
-from marshmallow import fields, Schema, ValidationError
+from marshmallow import fields, Schema, ValidationError, validates_schema
 from marshmallow.validate import Length
 from application.utils.helpers import validate_not_empty_or_whitespace
 
@@ -33,19 +33,14 @@ class ProjectSchema(Schema):
         }
     )
     
-    started_at = fields.DateTime(
+    started_at = fields.Date(
         required=True,
-        format='%Y-%m-%dT%H:%M:%S',  # ISO 8601 format, including time
         error_messages={
             "required": "Start date is required."
         }
     )
     
-    completed_at = fields.DateTime(
-        allow_none=True,
-        format='%Y-%m-%dT%H:%M:%S'  
-    )
-
+    completed_at = fields.Date(allow_none=True)
     hours_spent = fields.Float(allow_none=True)
     materials_cost = fields.Float(allow_none=True)
 
@@ -66,3 +61,9 @@ def validate_project(data):
         return validated_data
     except ValidationError as error:
         return error.messages
+
+
+@validates_schema
+def validate_dates(self, data, **kwargs):
+    if data.get('completed_at') and data.get('started_at') > data.get('completed_at'):
+        raise ValidationError("Completion date cannot be before the start date.", "completed_at")
