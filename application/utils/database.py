@@ -7,27 +7,24 @@ from flask_pymongo import PyMongo
 
 load_dotenv()
 
-# Encode the path to the certificate we get from certifi.where()
-cert_path = urllib.parse.quote_plus(certifi.where())
-
 MONGODB_TEST_URI = os.environ.get('MONGODB_TEST_URI')
 MONGODB_URI = os.environ.get('MONGODB_URI')
 
 if not MONGODB_URI:
     raise ValueError("MONGODB_URI is not set in the environment or .env file")
 
-
 # Get the correct database URI
 def get_db_uri(testing=False):
     uri = MONGODB_TEST_URI if testing else MONGODB_URI
 
+    # Encode the path to the certificate we get from certifi.where()
+    cert_path = urllib.parse.quote_plus(certifi.where())
+    
     # Append the encoded tlsCAFile param to the URI
     # Without it, the 'pymongo [SSL: CERTIFICATE_VERIFY_FAILED]' error occurs
-    cert_path = urllib.parse.quote_plus(certifi.where())
     uri += f"?tlsCAFile={cert_path}"
     return uri
 
-# MONGODB_URI += f"?tlsCAFile={cert_path}"
 
 # Create an instance of Flask-PyMongo which we will initialize later 
 pymongo = PyMongo()
