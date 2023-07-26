@@ -10,7 +10,8 @@ def base_account_data():
         "first_name": "Juniper",
         "last_name": "Moon",
         "email": "juniper.moon@gmail.com",
-        "zipcode": "98104"
+        "zipcode": "98104",
+        # "account_id": "759ac5f0377b7ec8bcf7f3ce4fd8e915142d6f5164821922"
     }
 
 @pytest.fixture
@@ -26,28 +27,14 @@ def base_project_data():
         "description": "Small round silver pendant with a flush set garnet",
         "account_id": "759ac5f0377b7ec8bcf7f3ce4fd8e915142d6f5164821922",
         "project_id": "7",  
-        "started_at": "2021-08-21T00:00:00",  # ISO 8601 format
-        "completed_at": "2021-08-24T00:00:00", 
+        "started_at": "2021-08-21",  # ISO 8601 format
+        "completed_at": "2021-08-24", 
         "hours_spent": 4.0,
         "materials_cost": 79.0,
-        "metals": [
-            {
-                "type": "gold",
-                "form": "foil",
-                "karat": "24K",
-            },
-            {
-                "type": "silver",
-                "form": "sheet",
-                "alloy": "sterling", 
-                "thickness": ["20ga", 0.8]
-            }
-        ],
-        "commission": False,
-        "unique": True,
-        "gemstones": ["garnet", 1, "round", "brilliant", "flush set"],
-        "jewelry_type": "pendant",
+        "metals": ["sterling silver 20ga sheet", "24K gold foil"],
+        "gemstones": ["flush set round brilliant garnet"],
         "shape": "round",
+        "jewelry_type": "pendant",
     }
 
 
@@ -57,27 +44,14 @@ def invalid_project_data():
         "project_name": "Statement bracelet with agate",
         "description": "Oversized gold and silver bracelet with an oval agate",
         "account_id": "759ac5f0377b7ec8bcf7f3ce4fd8e915142d6f5164821922",
-        "project_id": "57",  
         "started_at": "2021-08-25",  # This is after the completion date
         "completed_at": "2021-08-24",
         "hours_spent": 10,
         "materials_cost": 300.95,
-        "metals": [
-            {
-                "type": "gold",
-                "form": "sheet",
-                "karat": "18K",
-            },
-            {
-                "type": "silver",
-                "form": "sheet",
-                "alloy": "sterling", 
-                "thickness": ["20ga", 0.8]
-            }
-        ],
-        "commission": True,
-        "unique": True,
-        "gemstones": ["agate", 1, "oval", "cabochon", "bezel set"],
+        "materials": ["18K yellow gold jump rings", "paste solder"],
+        "metals": ["sterling silver 16ga sheet", "18K gold sheet 20ga", "Shibuichi alloy from ShiningMetals.com 18ga sheet"],
+        "gemstones": ["bezel set oval cabochon agate"],
+        "shape": "irregular",
         "jewelry_type": "bracelet",
     }
 
