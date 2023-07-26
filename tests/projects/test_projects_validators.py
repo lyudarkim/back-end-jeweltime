@@ -75,3 +75,11 @@ def test_started_at_is_required(base_project_data):
     
     errors = validate_project(data)
     assert errors['started_at'] == ["Start date is required."]
+
+
+# Tests for date validation
+def test_start_date_is_not_after_completion_date(invalid_project_data):
+    data = invalid_project_data.copy()
+
+    errors = validate_project(data)
+    assert errors['completed_at'] == ["Completion date cannot be before the start date."]
