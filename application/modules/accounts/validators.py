@@ -7,7 +7,7 @@ class AccountSchema(Schema):
     # account_id is the ObjectId stored as a string.
     # dump_only means that account_id will only be used when serializing
     # the object but not when loading (or deserializing) it.
-    account_id = fields.String(dump_only=True)
+    account_id = fields.Str(dump_only=True)
     
     first_name = fields.Str(
         required=True,
