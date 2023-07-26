@@ -35,12 +35,17 @@ class ProjectSchema(Schema):
     
     started_at = fields.DateTime(
         required=True,
+        format='%Y-%m-%dT%H:%M:%S',  # ISO 8601 format, including time
         error_messages={
             "required": "Start date is required."
         }
     )
     
-    completed_at = fields.DateTime(allow_none=True)
+    completed_at = fields.DateTime(
+        allow_none=True,
+        format='%Y-%m-%dT%H:%M:%S'  
+    )
+
     hours_spent = fields.Float(allow_none=True)
     materials_cost = fields.Float(allow_none=True)
     materials = fields.List(fields.Str(), default=[])
