@@ -23,6 +23,7 @@ def account_schema():
 def base_project_data():
     return {
         "project_name": "Keum-boo pendant with garnet",
+        "description": "Small round silver pendant with a flush set garnet",
         "project_id": "7",  
         "started_at": "2021-08-21T00:00:00",  # ISO 8601 format
         "completed_at": "2021-08-24T00:00:00", 
@@ -53,6 +54,7 @@ def base_project_data():
 def invalid_project_data():
     return {
         "project_name": "Statement bracelet with agate",
+        "description": "Oversized gold and silver bracelet with an oval agate",
         "project_id": "57",  
         "started_at": "2021-08-25",  # This is after the completion date
         "completed_at": "2021-08-24",
