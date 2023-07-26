@@ -18,7 +18,7 @@ def test_project_name_is_not_whitespace_only(base_project_data):
     assert errors['project_name'] == ["Field cannot be empty or consist solely of whitespace."]
 
 
-def test_project_name_field_is_required(base_project_data):
+def test_project_name_is_required(base_project_data):
     data = base_project_data.copy()
     del data["project_name"]
     
@@ -43,7 +43,7 @@ def test_description_is_not_whitespace_only(base_project_data):
     assert errors['description'] == ["Field cannot be empty or consist solely of whitespace."]
 
 
-def test_description_field_is_required(base_project_data):
+def test_description_is_required(base_project_data):
     data = base_project_data.copy()
     del data["description"]
     
@@ -57,3 +57,12 @@ def test_description_does_not_exceed_max_length(base_project_data):
     
     errors = validate_project(data)
     assert errors["description"] == ["Description exceeds the maximum length."]
+
+
+# Tests for account_id
+def test_account_id_is_required(base_project_data):
+    data = base_project_data.copy()
+    del data["account_id"]
+    
+    errors = validate_project(data)
+    assert errors['account_id'] == ["Account ID is required."]
