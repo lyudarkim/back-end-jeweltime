@@ -48,6 +48,7 @@ class ProjectSchema(Schema):
     materials = fields.List(fields.Str(), dump_default=[], load_default=[])
     metals = fields.List(fields.Str(), dump_default=[], load_default=[])
     gemstones = fields.List(fields.Str(), dump_default=[], load_default=[])   
+    notes = fields.List(fields.Str(), dump_default=[], load_default=[])   
     shape = fields.Str(allow_none=True)
     jewelry_type = fields.Str(allow_none=True)
 

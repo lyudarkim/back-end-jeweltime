@@ -32,6 +32,10 @@ def base_project_data():
         "materials_cost": 79.0,
         "metals": ["sterling silver 20ga sheet", "24K gold foil"],
         "gemstones": ["flush set round brilliant garnet"],
+        "notes": [
+            "Messed up the SS disc when cutting it out but it turned out to be a really cool texture and a feature of the pendant.", 
+            "Was going to set a 3 mm stone but ended up using the 5 mm garnet because I kept messing up the setting"
+        ],
         "shape": "round",
         "jewelry_type": "pendant",
     }
@@ -50,6 +54,9 @@ def invalid_project_data():
         "materials": ["18K yellow gold jump rings", "paste solder"],
         "metals": ["sterling silver 16ga sheet", "18K gold sheet 20ga", "Shibuichi alloy from ShiningMetals.com 18ga sheet"],
         "gemstones": ["bezel set oval cabochon agate"],
+        "notes": [
+            "Due to the size of the bracelet, I struggled with soldering it. Needed to use the biggest torch tip.", 
+        ],
         "shape": "irregular",
         "jewelry_type": "bracelet",
     }
