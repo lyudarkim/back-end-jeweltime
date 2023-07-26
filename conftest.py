@@ -43,9 +43,38 @@ def base_project_data():
         ],
         "commission": False,
         "unique": True,
-        "gemstones": ["garnet", 1, "round", "brilliant", "flush set",  5],
+        "gemstones": ["garnet", 1, "round", "brilliant", "flush set"],
         "jewelry_type": "pendant",
         "shape": "round",
+    }
+
+
+@pytest.fixture
+def invalid_project_data():
+    return {
+        "project_name": "Statement bracelet with agate",
+        "project_id": "57",  
+        "started_at": "2021-08-25",  # This is after the completion date
+        "completed_at": "2021-08-24",
+        "hours_spent": 10,
+        "materials_cost": 300.95,
+        "metals": [
+            {
+                "type": "gold",
+                "form": "sheet",
+                "karat": "18K",
+            },
+            {
+                "type": "silver",
+                "form": "sheet",
+                "alloy": "sterling", 
+                "thickness": ["20ga", 0.8]
+            }
+        ],
+        "commission": True,
+        "unique": True,
+        "gemstones": ["agate", 1, "oval", "cabochon", "bezel set"],
+        "jewelry_type": "bracelet",
     }
 
 
