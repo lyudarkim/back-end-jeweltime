@@ -1,9 +1,11 @@
 import pytest
 from application.modules.accounts.validators import AccountSchema
 from application.modules.projects.validators import ProjectSchema
+from application.utils.database import pymongo
 
 
-# Fixtures for AccountSchema
+# ---------------------- Common/Base Data Fixtures ----------------------
+
 @pytest.fixture
 def base_account_data():
     return {
@@ -13,12 +15,7 @@ def base_account_data():
         "zipcode": "98104",
     }
 
-@pytest.fixture
-def account_schema():
-    return AccountSchema()
 
-
-# Fixtures for ProjectSchema
 @pytest.fixture
 def base_project_data():
     return {
@@ -62,6 +59,53 @@ def invalid_project_data():
     }
 
 
+# ---------------------- Schemas/Validators ----------------------
+
+@pytest.fixture
+def account_schema():
+    return AccountSchema()
+
+
 @pytest.fixture
 def project_schema():
     return ProjectSchema()
+
+
+# ---------------------- Database Setup and Teardown ----------------------
+
+@pytest.fixture
+def setup_sample_account_data():
+    sample_data = base_account_data()  
+
+    # If collection 'accounts' doesn't already exist, MongoDB will be create one
+    pymongo.db.accounts.insert_one(sample_data)
+    yield sample_data
+
+    # Cleanup will happen automatically from the clear_collections fixture
+
+
+@pytest.fixture
+def setup_sample_project_data():
+    sample_data = base_project_data()  
+    pymongo.db.projects.insert_one(sample_data)  
+
+    yield sample_data
+
+
+# autouse=True means this fixture will run after each test automatically
+@pytest.fixture(autouse=True)
+def clear_collections():
+
+    # Safety check to ensure it's the test database
+    assert "test" in pymongo.db.name 
+    yield
+
+    # clear collections after each test
+    pymongo.db.accounts.delete_many({})
+
+
+# scope="session" means this fixture will run only once after all tests in the session have completed
+@pytest.fixture(scope="session", autouse=True)
+def drop_test_database():
+    yield
+    pymongo.cx.drop_database('your_test_db_name')
