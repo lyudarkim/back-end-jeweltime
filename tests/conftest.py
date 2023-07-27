@@ -1,7 +1,22 @@
+import os
 import pytest
+from application import create_app
 from application.modules.accounts.validators import AccountSchema
 from application.modules.projects.validators import ProjectSchema
 from application.utils.database import pymongo
+
+
+@pytest.fixture
+def app():
+    # Create a test app instance
+    app = create_app(testing=True)
+    yield app
+
+
+@pytest.fixture
+def client(app):
+    # Create a test client using the test app
+    return app.test_client()
 
 
 # ---------------------- Common/Base Data Fixtures ----------------------
@@ -77,7 +92,7 @@ def project_schema():
 def setup_sample_account_data():
     sample_data = base_account_data()  
 
-    # If collection 'accounts' doesn't already exist, MongoDB will be create one
+    # If a collection 'accounts' doesn't already exist, MongoDB will be create one
     pymongo.db.accounts.insert_one(sample_data)
     yield sample_data
 
@@ -94,18 +109,24 @@ def setup_sample_project_data():
 
 # autouse=True means this fixture will run after each test automatically
 @pytest.fixture(autouse=True)
-def clear_collections():
-
+def clear_collections(app):
+    # Ensure that the pymongo object is initialized
+    assert pymongo.db is not None
+    
     # Safety check to ensure it's the test database
     assert "test" in pymongo.db.name 
     yield
 
-    # clear collections after each test
+    # Clear collections after each test
     pymongo.db.accounts.delete_many({})
 
 
 # scope="session" means this fixture will run only once after all tests in the session have completed
 @pytest.fixture(scope="session", autouse=True)
 def drop_test_database():
+
+    test_db_name = os.environ.get('MONGODB_TEST_DB')  
     yield
-    pymongo.cx.drop_database('your_test_db_name')
+
+    # Drop the test database after all tests are done
+    pymongo.cx.drop_database(test_db_name)
