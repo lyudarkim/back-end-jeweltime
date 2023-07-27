@@ -49,7 +49,7 @@ def validate_account(data):
     """Validates account data against the AccountSchema."""
     schema = AccountSchema()
     try:
-        validated_data = schema.load(data)
-        return validated_data
+        schema.load(data)
+        return None
     except ValidationError as error:
         return error.messages
