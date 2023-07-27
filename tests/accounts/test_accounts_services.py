@@ -1,4 +1,4 @@
-from application.modules.accounts.services import create_account, get_account, update_account
+from application.modules.accounts.services import create_account, get_account, update_account, delete_account
 from application.utils.database import pymongo
 
 
@@ -30,3 +30,13 @@ def test_update_account(app, base_account_data):
         
         account = pymongo.db.accounts.find_one({"_id": account_id})
         assert account["first_name"] == "Lulu"
+
+
+def test_delete_account(app, base_account_data):
+    with app.app_context():
+        account_id = create_account(base_account_data)
+        count = delete_account(str(account_id))
+        assert count == 1
+        
+        account = pymongo.db.accounts.find_one({"_id": account_id})
+        assert not account

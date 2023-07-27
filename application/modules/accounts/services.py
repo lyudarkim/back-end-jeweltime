@@ -21,3 +21,12 @@ def update_account(account_id, data):
     
     return result.modified_count
     
+
+def delete_account(account_id):
+    """
+    This function deletes an account from the database using its ID.
+    It returns the count of deleted records (should be 1 if the operation was successful).
+    """
+    result = pymongo.db.accounts.delete_one({"_id": ObjectId(account_id)})
+
+    return result.deleted_count
