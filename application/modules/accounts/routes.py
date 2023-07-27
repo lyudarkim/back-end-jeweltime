@@ -7,6 +7,7 @@ from application.modules.accounts.services import (
     service_delete_account
 )
 from application.modules.accounts.validators import validate_account
+from application.utils.database import pymongo
 
 
 accounts_bp = Blueprint("accounts", __name__, url_prefix="/accounts")
@@ -14,15 +15,19 @@ accounts_bp = Blueprint("accounts", __name__, url_prefix="/accounts")
 
 @accounts_bp.route("", methods=['POST'])
 def create_account():
-    data = request.json
-    errors = validate_account(data)
+    try:
+        data = request.json
+        errors = validate_account(data)
+        
+        if errors:
+            return jsonify(errors), 400
+
+        account_id = service_create_account(data)
+        return jsonify({"account_id": str(account_id)}), 201
     
-    if errors:
-        return jsonify(errors), 400
+    except pymongo.errors.ConnectionFailure:
+        return jsonify({"error": "Database connection failed"}), 500
 
-    account_id = service_create_account(data)
-
-    return jsonify({"account_id": str(account_id)}), 201
 
 
 @accounts_bp.route("/<account_id>", methods=['GET'])
