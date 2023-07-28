@@ -9,9 +9,12 @@ def test_create_account(app, base_account_data):
 
         # Convert raw data into a Python dictionary
         json_data = json.loads(response.data)
-        account_id = json_data['account_id']
         
-        assert account_id is not None
+        assert json_data['account_id'] is not None
+        assert json_data["first_name"] == base_account_data["first_name"]
+        assert json_data["last_name"] == base_account_data["last_name"]
+        assert json_data["email"] == base_account_data["email"]
+        assert json_data["zipcode"] == base_account_data["zipcode"]
 
 
 def test_get_account(app, base_account_data):
@@ -27,8 +30,11 @@ def test_get_account(app, base_account_data):
 
         json_data = json.loads(response.data)
 
-        assert json_data["_id"] == account_id
+        assert json_data['account_id'] == account_id
         assert json_data["first_name"] == base_account_data["first_name"]
+        assert json_data["last_name"] == base_account_data["last_name"]
+        assert json_data["email"] == base_account_data["email"]
+        assert json_data["zipcode"] == base_account_data["zipcode"]
 
 
 def test_update_account(app, base_account_data):

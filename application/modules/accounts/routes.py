@@ -24,7 +24,14 @@ def create_account():
             return jsonify(errors), 400
 
         account_id = service_create_account(data)
-        return jsonify({"account_id": str(account_id)}), 201
+        
+        # Fetch the whole account
+        account = service_get_account(account_id)
+        
+        # Rename the '_id' key to 'account_id' and convert ObjectId to string for serialization
+        account["account_id"] = str(account.pop("_id"))
+        
+        return jsonify(account), 201
     
     except pymongo.errors.ConnectionFailure:
         return jsonify({"error": "Database connection failed"}), 500
@@ -38,11 +45,10 @@ def get_account(account_id):
         if not account:
             abort(404, description="Account not found")
         
-        # Convert ObjectId of the account (which is a BSON type) to a string so it can be serialized into JSON
-        account["_id"] = str(account["_id"])
+        account["account_id"] = str(account.pop("_id"))
         return jsonify(account), 200
 
-    # If account_id is not a valid BSON ObjectId
+    # If 'account_id' is not a valid BSON ObjectId
     except InvalidId:
         return jsonify({"error": "Invalid account ID format"}), 400
 
