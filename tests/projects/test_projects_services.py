@@ -8,7 +8,7 @@ from application.modules.accounts.services import (
 from application.modules.projects.services import (
     service_create_project, 
     service_get_project, 
-    # service_update_project, 
+    service_update_project, 
     # service_delete_project
 )
 
@@ -39,3 +39,19 @@ def test_get_project(app, base_account_data, base_project_data):
         assert project
         assert project["_id"] == project_id
         assert project["account_id"] == account_id
+
+
+def test_update_project(app, base_account_data, base_project_data):
+    with app.app_context():
+        account_id = service_create_account(base_account_data)
+        project_id = service_create_project(base_project_data, str(account_id))
+
+        updated_data = {"project_name": "New Project Name"}
+        count = service_update_project(str(project_id), str(account_id), updated_data)
+
+        assert count == 1
+        
+        project = pymongo.db.projects.find_one({"_id": project_id})
+        assert project["project_name"] == "New Project Name"
+        assert str(project["account_id"]) == str(account_id)
+
