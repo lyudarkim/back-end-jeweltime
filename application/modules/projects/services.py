@@ -20,7 +20,12 @@ def service_get_project(project_id, account_id):
     if not pymongo.db.accounts.find_one({"_id": ObjectId(account_id)}):
         raise ValueError("Account not found.")
 
-    return pymongo.db.projects.find_one({"_id": ObjectId(project_id)})
+    project = pymongo.db.projects.find_one({"_id": ObjectId(project_id)})
+
+    if not project:
+        raise ValueError("Project not found.")
+
+    return project
 
 
 def service_update_project(project_id, account_id, data):
