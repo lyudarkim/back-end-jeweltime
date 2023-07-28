@@ -69,3 +69,21 @@ def update_account(account_id):
     except ConnectionFailure:
         return jsonify({"error": "Database connection failed"}), 500
     
+
+@accounts_bp.route("/<account_id>", methods=['DELETE'])
+def delete_account(account_id):
+    try:
+        count = service_delete_account(account_id)
+        
+        if count == 0:
+            abort(404, description="Account not found.")
+        
+        return jsonify({"message": "Account deleted successfully"})
+    
+    except InvalidId:
+        return jsonify({"error": "Invalid account ID format"}), 400
+        
+    except ConnectionFailure:
+        return jsonify({"error": "Database connection failed"}), 500
+
+
