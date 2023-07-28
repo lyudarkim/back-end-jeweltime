@@ -7,5 +7,7 @@ def service_create_project(data):
     return pymongo.db.projects.insert_one(data).inserted_id
     
 
-
+def service_get_project(project_id):
+    """This function retrieves a specific project using its ID."""
+    return pymongo.db.projects.find_one({"_id": ObjectId(project_id)})
     

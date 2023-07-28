@@ -19,3 +19,10 @@ def test_create_project(app, base_project_data):
         assert retrieved_project["project_name"] == base_project_data["project_name"]
 
 
+def test_get_project(app, base_project_data):
+    with app.app_context():
+        project_id = service_create_project(base_project_data)
+        project = service_get_project(str(project_id))
+        
+        assert project
+        assert project["_id"] == project_id
