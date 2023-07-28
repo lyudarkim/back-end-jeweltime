@@ -37,7 +37,6 @@ def base_project_data():
         "project_name": "Keum-boo pendant with garnet",
         "description": "Small round silver pendant with a flush set garnet",
         "account_id": "759ac5f0377b7ec8bcf7f3ce4fd8e915142d6f5164821922",
-        "project_id": "7",  
         "started_at": "2021-08-21",  # ISO 8601 format
         "completed_at": "2021-08-24", 
         "hours_spent": 4.0,
