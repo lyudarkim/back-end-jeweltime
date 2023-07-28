@@ -61,11 +61,11 @@ class ProjectSchema(Schema):
             )
         
 
-def validate_project(data):
+def validate_project(data, partial=False):
     """Validates project data against the ProjectSchema."""
     schema = ProjectSchema()
     try:
-        validated_data = schema.load(data)
+        validated_data = schema.load(data, partial=partial)
         return validated_data
     except ValidationError as error:
         return error.messages
