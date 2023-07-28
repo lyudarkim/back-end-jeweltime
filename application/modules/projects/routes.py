@@ -3,7 +3,7 @@ from bson.errors import InvalidId
 from application.modules.accounts.services import service_create_account
 from application.modules.projects.services import (
     service_create_project, 
-    # service_get_project, 
+    service_get_project, 
     # service_update_project, 
     # service_delete_project
 )
@@ -29,3 +29,20 @@ def create_project(account_id):
     
     except ConnectionFailure:
         return jsonify({"error": "Database connection failed"}), 500
+
+
+@projects_bp.route("/<project_id>", methods=['GET'])
+def get_project(account_id, project_id):
+    try:
+        project = service_get_project(project_id, account_id)
+        if not project:
+            abort(404, description="Project not found")
+        
+        # Convert MongoDB ObjectIds to strings
+        project["_id"] = str(project["_id"])
+        project["account_id"] = str(project["account_id"])
+
+        return jsonify(project), 200
+    
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 404
