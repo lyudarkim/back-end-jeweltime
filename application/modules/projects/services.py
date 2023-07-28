@@ -34,4 +34,14 @@ def service_update_project(project_id, account_id, data):
         {"$set": data}
     )
     return result.modified_count
+
+
+def service_delete_project(project_id, account_id):
+    """This function deletes a project associated with an account using project ID and account ID."""
+
+    if not pymongo.db.accounts.find_one({"_id": ObjectId(account_id)}):
+        raise ValueError("Account not found.")
+
+    result = pymongo.db.projects.delete_one({"_id": ObjectId(project_id), "account_id": ObjectId(account_id)})
+    return result.deleted_count
     
