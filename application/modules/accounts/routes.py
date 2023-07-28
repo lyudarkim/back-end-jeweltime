@@ -8,6 +8,7 @@ from application.modules.accounts.services import (
 )
 from application.modules.accounts.validators import validate_account
 from application.utils.database import pymongo
+from pymongo.errors import ConnectionFailure
 
 
 accounts_bp = Blueprint("accounts", __name__, url_prefix="/accounts")
@@ -17,7 +18,7 @@ accounts_bp = Blueprint("accounts", __name__, url_prefix="/accounts")
 def create_account():
     try:
         data = request.json
-        errors = validate_account(data)
+        errors = validate_account(data, partial=False)
         
         if errors:
             return jsonify(errors), 400
@@ -44,3 +45,27 @@ def get_account(account_id):
     # If account_id is not a valid BSON ObjectId
     except InvalidId:
         return jsonify({"error": "Invalid account ID format"}), 400
+
+
+@accounts_bp.route("/<account_id>", methods=['PUT', 'PATCH'])
+def update_account(account_id):
+    try: 
+        data = request.json
+        errors = validate_account(data, partial=True)
+
+        if errors:
+            return jsonify(errors), 400
+
+        count = service_update_account(account_id, data)
+        
+        if count == 0:
+            abort(404, description="Account not found or not updated.")
+        
+        return jsonify({"message": "Account updated successfully"})
+    
+    except InvalidId:
+            return jsonify({"error": "Invalid account ID format"}), 400
+        
+    except ConnectionFailure:
+        return jsonify({"error": "Database connection failed"}), 500
+    
