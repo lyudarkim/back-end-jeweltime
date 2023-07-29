@@ -24,8 +24,8 @@ def client(app):
 @pytest.fixture
 def base_account_data():
     return {
-        "first_name": "Juniper",
-        "last_name": "Moon",
+        "firstName": "Juniper",
+        "lastName": "Moon",
         "email": "juniper.moon@gmail.com",
         "zipcode": "98104",
     }
@@ -34,13 +34,13 @@ def base_account_data():
 @pytest.fixture
 def base_project_data():
     return {
-        "project_name": "Keum-boo pendant with garnet",
+        "projectName": "Keum-boo pendant with garnet",
         "description": "Small round silver pendant with a flush set garnet",
-        "account_id": "759ac5f0377b7ec8bcf7f3ce4fd8e915142d6f5164821922",
-        "started_at": "2021-08-21",  # ISO 8601 format
-        "completed_at": "2021-08-24", 
-        "hours_spent": 4.0,
-        "materials_cost": 79.0,
+        "accountId": "759ac5f0377b7ec8bcf7f3ce4fd8e915142d6f5164821922",
+        "startedAt": "2021-08-21",  # ISO 8601 format
+        "completedAt": "2021-08-24", 
+        "hoursSpent": 4.0,
+        "materialsCost": 79.0,
         "metals": ["sterling silver 20ga sheet", "24K gold foil"],
         "gemstones": ["flush set round brilliant garnet"],
         "notes": [
@@ -48,20 +48,20 @@ def base_project_data():
             "Was going to set a 3 mm stone but ended up using the 5 mm garnet because I kept messing up the setting"
         ],
         "shape": "round",
-        "jewelry_type": "pendant",
+        "jewelryType": "pendant",
     }
 
 
 @pytest.fixture
 def invalid_project_data():
     return {
-        "project_name": "Statement bracelet with agate",
+        "projectName": "Statement bracelet with agate",
         "description": "Oversized gold and silver bracelet with an oval agate",
-        "account_id": "759ac5f0377b7ec8bcf7f3ce4fd8e915142d6f5164821922",
-        "started_at": "2021-08-25",  # This is after the completion date
-        "completed_at": "2021-08-24",
-        "hours_spent": 10,
-        "materials_cost": 300.95,
+        "accountId": "759ac5f0377b7ec8bcf7f3ce4fd8e915142d6f5164821922",
+        "startedAt": "2021-08-25",  # This is after the completion date
+        "completedAt": "2021-08-24",
+        "hoursSpent": 10,
+        "materialsCost": 300.95,
         "materials": ["18K yellow gold jump rings", "paste solder"],
         "metals": ["sterling silver 16ga sheet", "18K gold sheet 20ga", "Shibuichi alloy from ShiningMetals.com 18ga sheet"],
         "gemstones": ["bezel set oval cabochon agate"],
@@ -69,7 +69,7 @@ def invalid_project_data():
             "Due to the size of the bracelet, I struggled with soldering it. Needed to use the biggest torch tip.", 
         ],
         "shape": "irregular",
-        "jewelry_type": "bracelet",
+        "jewelryType": "bracelet",
     }
 
 

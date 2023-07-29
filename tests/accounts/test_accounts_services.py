@@ -15,9 +15,9 @@ def test_service_create_account(app, base_account_data):
         new_account = service_create_account(base_account_data)
         
         assert new_account is not None, "Account not created"
-        assert 'account_id' in new_account
-        assert new_account["first_name"] == base_account_data["first_name"]
-        assert new_account["last_name"] == base_account_data["last_name"]
+        assert 'accountId' in new_account
+        assert new_account["firstName"] == base_account_data["firstName"]
+        assert new_account["lastName"] == base_account_data["lastName"]
         assert new_account["email"] == base_account_data["email"]
         assert new_account["zipcode"] == base_account_data["zipcode"]
 
@@ -25,34 +25,34 @@ def test_service_create_account(app, base_account_data):
 def test_service_get_account(app, base_account_data):
     with app.app_context():
         created_account = service_create_account(base_account_data)
-        account_id = created_account['account_id']
-        retrieved_account = service_get_account(account_id)
+        accountId = created_account['accountId']
+        retrieved_account = service_get_account(accountId)
         
         assert retrieved_account
-        assert retrieved_account['account_id'] == account_id
-        assert retrieved_account["first_name"] == base_account_data["first_name"]
-        assert retrieved_account["last_name"] == base_account_data["last_name"]
+        assert retrieved_account['accountId'] == accountId
+        assert retrieved_account["firstName"] == base_account_data["firstName"]
+        assert retrieved_account["lastName"] == base_account_data["lastName"]
         assert retrieved_account["email"] == base_account_data["email"]
         assert retrieved_account["zipcode"] == base_account_data["zipcode"]
 
 
 def test_service_update_account(app, base_account_data):
     with app.app_context():
-        account_id = service_create_account(base_account_data)
-        updated_data = {"first_name": "Lulu"}
+        accountId = service_create_account(base_account_data)
+        updated_data = {"firstName": "Lulu"}
 
-        count = service_update_account(str(account_id), updated_data)
+        count = service_update_account(str(accountId), updated_data)
         assert count == 1
         
-        account = pymongo.db.accounts.find_one({"_id": account_id})
-        assert account["first_name"] == "Lulu"
+        account = pymongo.db.accounts.find_one({"_id": accountId})
+        assert account["firstName"] == "Lulu"
 
 
 def test_service_delete_account(app, base_account_data):
     with app.app_context():
-        account_id = service_create_account(base_account_data)
-        count = service_delete_account(str(account_id))
+        accountId = service_create_account(base_account_data)
+        count = service_delete_account(str(accountId))
         assert count == 1
         
-        account = pymongo.db.accounts.find_one({"_id": account_id})
+        account = pymongo.db.accounts.find_one({"_id": accountId})
         assert not account

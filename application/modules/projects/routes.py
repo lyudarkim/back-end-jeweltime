@@ -12,11 +12,11 @@ from application.utils.database import pymongo
 from pymongo.errors import ConnectionFailure
 
 
-projects_bp = Blueprint("projects", __name__, url_prefix="/accounts/<account_id>/projects")
+projects_bp = Blueprint("projects", __name__, url_prefix="/accounts/<accountId>/projects")
 
 
 @projects_bp.route("", methods=['POST'])
-def create_project(account_id):
+def create_project(accountId):
     try:
         data = request.json
         errors = validate_project(data, partial=False)
@@ -24,23 +24,23 @@ def create_project(account_id):
         if errors:
             return jsonify(errors), 400
 
-        project = service_create_project(data, account_id)
+        project = service_create_project(data, accountId)
         return jsonify(project), 201
     
     except ConnectionFailure:
         return jsonify({"error": "Database connection failed"}), 500
 
 
-@projects_bp.route("/<project_id>", methods=['GET'])
-def get_project(account_id, project_id):
+@projects_bp.route("/<projectId>", methods=['GET'])
+def get_project(accountId, projectId):
     try:
-        project = service_get_project(project_id, account_id)
+        project = service_get_project(projectId, accountId)
         if not project:
             abort(404, description="Project not found")
         
         # Convert MongoDB ObjectIds to strings
         project["_id"] = str(project["_id"])
-        project["account_id"] = str(project["account_id"])
+        project["accountId"] = str(project["accountId"])
 
         return jsonify(project), 200
     

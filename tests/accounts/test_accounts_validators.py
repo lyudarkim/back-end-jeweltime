@@ -8,54 +8,54 @@ def test_valid_account_data(base_account_data):
     assert errors is None
 
 
-# Tests for first_name
+# Tests for firstName
 def test_first_name_is_not_empty_string(base_account_data):     
     data = base_account_data.copy()
-    data["first_name"] = ""
+    data["firstName"] = ""
     
     errors = validate_account(data)
-    assert errors['first_name'] == ["Field cannot be empty or consist solely of whitespace."]
+    assert errors['firstName'] == ["Field cannot be empty or consist solely of whitespace."]
 
 
 def test_first_name_is_not_whitespace_only(base_account_data):     
     data = base_account_data.copy()
-    data["first_name"] = "     "
+    data["firstName"] = "     "
     
     errors = validate_account(data)
-    assert errors['first_name'] == ["Field cannot be empty or consist solely of whitespace."]
+    assert errors['firstName'] == ["Field cannot be empty or consist solely of whitespace."]
 
 
 def test_first_name_field_is_required(base_account_data):
     data = base_account_data.copy()
-    del data["first_name"]
+    del data["firstName"]
     
     errors = validate_account(data)
-    assert errors['first_name'] == ["First name is required."]
+    assert errors['firstName'] == ["First name is required."]
 
 
-# Tests for last_name
+# Tests for lastName
 def test_last_name_is_not_empty_string(base_account_data):     
     data = base_account_data.copy()
-    data["last_name"] = ""
+    data["lastName"] = ""
     
     errors = validate_account(data)
-    assert errors['last_name'] == ["Field cannot be empty or consist solely of whitespace."]
+    assert errors['lastName'] == ["Field cannot be empty or consist solely of whitespace."]
 
 
 def test_last_name_is_not_whitespace_only(base_account_data):     
     data = base_account_data.copy()
-    data["last_name"] = "     "
+    data["lastName"] = "     "
     
     errors = validate_account(data)
-    assert errors['last_name'] == ["Field cannot be empty or consist solely of whitespace."]
+    assert errors['lastName'] == ["Field cannot be empty or consist solely of whitespace."]
 
 
 def test_last_name_field_is_required(base_account_data):
     data = base_account_data.copy()
-    del data["last_name"]
+    del data["lastName"]
     
     errors = validate_account(data)
-    assert errors['last_name'] == ["Last name is required."]
+    assert errors['lastName'] == ["Last name is required."]
 
 
 # Tests for email

@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, abort
-from bson import ObjectId  
+# from bson import ObjectId  
 from bson.errors import InvalidId
 from application.modules.accounts.services import (
     service_create_account, 
@@ -34,24 +34,24 @@ def create_account():
         }), 500
 
 
-@accounts_bp.route("/<account_id>", methods=['GET'])
-def get_account(account_id):
+@accounts_bp.route("/<accountId>", methods=['GET'])
+def get_account(accountId):
     try:
-        account = service_get_account(account_id)
+        account = service_get_account(accountId)
         if not account:
             abort(404, description="Account not found")
         
         return jsonify(account), 200
 
-    # If 'account_id' is not a valid BSON ObjectId
+    # If 'accountId' is not a valid BSON ObjectId
     except InvalidId:
         return jsonify({
             "error": "Invalid account ID format"
         }), 400
 
 
-@accounts_bp.route("/<account_id>", methods=['PUT', 'PATCH'])
-def update_account(account_id):
+@accounts_bp.route("/<accountId>", methods=['PUT', 'PATCH'])
+def update_account(accountId):
     try: 
         data = request.json
         errors = validate_account(data, partial=True)
@@ -59,7 +59,7 @@ def update_account(account_id):
         if errors:
             return jsonify(errors), 400
 
-        account = service_update_account(account_id, data)
+        account = service_update_account(accountId, data)
         
         if not account:
             abort(404, description="Account not found or not updated.")
@@ -76,10 +76,10 @@ def update_account(account_id):
         return jsonify({"error": "Database connection failed"}), 500
     
 
-@accounts_bp.route("/<account_id>", methods=['DELETE'])
-def delete_account(account_id):
+@accounts_bp.route("/<accountId>", methods=['DELETE'])
+def delete_account(accountId):
     try:
-        count = service_delete_account(account_id)
+        count = service_delete_account(accountId)
         
         if count == 0:
             abort(404, description="Account not found.")

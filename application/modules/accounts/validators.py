@@ -4,12 +4,12 @@ from application.utils.helpers import validate_not_empty_or_whitespace
 
 
 class AccountSchema(Schema):
-    # account_id is the ObjectId stored as a string.
-    # dump_only means that account_id will only be used when serializing
+    # accountId is the ObjectId stored as a string.
+    # dump_only means that accountId will only be used when serializing
     # the object but not when loading (or deserializing) it.
-    account_id = fields.Str(dump_only=True)
+    accountId = fields.Str(dump_only=True)
     
-    first_name = fields.Str(
+    firstName = fields.Str(
         required=True,
         validate=validate_not_empty_or_whitespace,
         error_messages={
@@ -17,7 +17,7 @@ class AccountSchema(Schema):
         }
     )
     
-    last_name = fields.Str(
+    lastName = fields.Str(
         required=True,
         validate=validate_not_empty_or_whitespace,
         error_messages={
