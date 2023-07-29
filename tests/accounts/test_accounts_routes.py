@@ -11,7 +11,6 @@ def test_create_account_route(app, base_account_data):
         json_data = json.loads(response.data)
         
         assert 'account_id' in json_data
-        assert json_data['account_id'] == str(json_data['_id'])
         assert json_data["first_name"] == base_account_data["first_name"]
         assert json_data["last_name"] == base_account_data["last_name"]
         assert json_data["email"] == base_account_data["email"]

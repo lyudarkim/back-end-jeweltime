@@ -16,7 +16,6 @@ def test_service_create_account(app, base_account_data):
         
         assert new_account is not None, "Account not created"
         assert 'account_id' in new_account
-        assert str(new_account['_id']) == new_account['account_id']
         assert new_account["first_name"] == base_account_data["first_name"]
         assert new_account["last_name"] == base_account_data["last_name"]
         assert new_account["email"] == base_account_data["email"]

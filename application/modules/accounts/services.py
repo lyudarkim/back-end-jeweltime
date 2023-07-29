@@ -16,8 +16,13 @@ def service_create_account(account_data):
     # Update newly inserted account to set account_id which will be the same value as _id.
     pymongo.db.accounts.update_one({"_id": account_id}, {"$set": {"account_id": str(account_id)}})
 
-    # Fetch and return updated account.
-    return pymongo.db.accounts.find_one({"_id": ObjectId(account_id)})
+    # Fetch the updated account.
+    new_account = pymongo.db.accounts.find_one({"_id": ObjectId(account_id)})
+    
+    # Remove the non-serializable BSON ObjectId from the dictionary before returning.
+    del new_account["_id"]
+
+    return new_account
 
 
 def service_get_account(account_id):

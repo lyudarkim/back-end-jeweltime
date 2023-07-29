@@ -8,7 +8,7 @@ from application.modules.accounts.services import (
     service_delete_account
 )
 from application.modules.accounts.validators import validate_account
-from application.utils.database import pymongo
+# from application.utils.database import pymongo
 from pymongo.errors import ConnectionFailure
 
 
@@ -26,9 +26,6 @@ def create_account():
         
         # Fetch the whole account
         new_account = service_create_account(data)
-        
-        # Convert ObjectId to string for serialization
-        new_account["_id"] = str(new_account["_id"])
         
         return jsonify(new_account), 201
     
