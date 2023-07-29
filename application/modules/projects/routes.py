@@ -24,8 +24,8 @@ def create_project(account_id):
         if errors:
             return jsonify(errors), 400
 
-        project_id = service_create_project(data, account_id)
-        return jsonify({"project_id": str(project_id)}), 201
+        project = service_create_project(data, account_id)
+        return jsonify(project), 201
     
     except ConnectionFailure:
         return jsonify({"error": "Database connection failed"}), 500

@@ -1,3 +1,5 @@
+from bson import ObjectId
+
 # Service functions
 from application.modules.accounts.services import service_create_account
 from application.modules.projects.services import (
@@ -11,20 +13,31 @@ from application.modules.projects.services import (
 from application.utils.database import pymongo
 
 
-def test_create_project(app, base_account_data, base_project_data):
+def test_service_create_project(app, base_account_data, base_project_data):
     with app.app_context():
+        # Create the account
         account_id = service_create_account(base_account_data)
         assert account_id
 
-        project_id = service_create_project(base_project_data, str(account_id))
-        assert project_id
-        
-        retrieved_project = pymongo.db.projects.find_one({"_id": project_id})
-        assert retrieved_project["project_name"] == base_project_data["project_name"]
-        assert retrieved_project["account_id"] == account_id
+        # Create the project with the associated account_id
+        base_project_data["account_id"] = str(account_id)
+        new_project = service_create_project(base_project_data, str(account_id))
+        assert new_project
+
+        # Assert that the new_project contains all the fields from the base_project_data
+        for key, value in base_project_data.items():
+            assert new_project.get(key) == value
+
+        # Assert the project_id field is present and matches the MongoDB _id
+        assert new_project.get("project_id") == str(new_project.get("_id"))
+
+        # Assert the account_id field is present and matches the account_id used for creation
+        assert new_project.get("account_id") == str(account_id)
+
+    
 
 
-def test_get_project(app, base_account_data, base_project_data):
+def test_service_get_project(app, base_account_data, base_project_data):
     with app.app_context():
         account_id = service_create_account(base_account_data)
         project_id = service_create_project(base_project_data, str(account_id))
@@ -36,7 +49,7 @@ def test_get_project(app, base_account_data, base_project_data):
         assert project["account_id"] == account_id
 
 
-def test_update_project(app, base_account_data, base_project_data):
+def test_service_update_project(app, base_account_data, base_project_data):
     with app.app_context():
         account_id = service_create_account(base_account_data)
         project_id = service_create_project(base_project_data, str(account_id))
@@ -51,7 +64,7 @@ def test_update_project(app, base_account_data, base_project_data):
         assert str(project["account_id"]) == str(account_id)
 
 
-def test_delete_project(app, base_account_data, base_project_data):
+def test_service_delete_project(app, base_account_data, base_project_data):
     with app.app_context():
         account_id = service_create_account(base_account_data)
         project_id = service_create_project(base_project_data, str(account_id))
