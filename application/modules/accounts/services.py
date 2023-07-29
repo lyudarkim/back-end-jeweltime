@@ -31,8 +31,9 @@ def service_get_account(account_id):
     account = pymongo.db.accounts.find_one({"account_id": account_id})
 
     if account:
-        account["_id"] = str(account["_id"])
-    
+        # Delete the '_id' key-value pair because we don't want it in GET response body
+        del account["_id"]  
+
     return account 
 
 
