@@ -2,6 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from application.utils.database import setup_db_connection
 
+
 # Remove testing=True argument when in production
 def create_app(testing=True):
     app = Flask(__name__)

@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request, abort
+from bson import ObjectId  
 from bson.errors import InvalidId
 from application.modules.accounts.services import (
     service_create_account, 
@@ -22,20 +23,17 @@ def create_account():
         
         if errors:
             return jsonify(errors), 400
-
-        account_id = service_create_account(data)
         
         # Fetch the whole account
-        account = service_get_account(account_id)
+        new_account = service_create_account(data)
         
-        # Rename the '_id' key to 'account_id' and convert ObjectId to string for serialization
-        account["account_id"] = str(account.pop("_id"))
+        # Convert ObjectId to string for serialization
+        new_account["_id"] = str(new_account["_id"])
         
-        return jsonify(account), 201
+        return jsonify(new_account), 201
     
-    except pymongo.errors.ConnectionFailure:
+    except ConnectionFailure:
         return jsonify({"error": "Database connection failed"}), 500
-
 
 
 @accounts_bp.route("/<account_id>", methods=['GET'])

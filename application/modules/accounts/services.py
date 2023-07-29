@@ -2,9 +2,22 @@ from bson import ObjectId
 from application.utils.database import pymongo
 
 
-def service_create_account(data):
-    """This function inserts a new account into the database."""
-    return pymongo.db.accounts.insert_one(data).inserted_id
+def service_create_account(account_data):
+    """This function inserts an account into the database with the account_id and returns the account object."""
+
+    # Insert new account. MongoDB will generate an _id.
+    inserted = pymongo.db.accounts.insert_one(account_data)
+    account_id = inserted.inserted_id
+
+    # Check if insertion was acknowledged by db.
+    if not inserted.acknowledged:
+        raise Exception("Failed to insert account into the database")
+    
+    # Update newly inserted account to set account_id which will be the same value as _id.
+    pymongo.db.accounts.update_one({"_id": account_id}, {"$set": {"account_id": str(account_id)}})
+
+    # Fetch and return updated account.
+    return pymongo.db.accounts.find_one({"_id": ObjectId(account_id)})
 
 
 def service_get_account(account_id):
