@@ -40,7 +40,6 @@ def get_account(account_id):
         if not account:
             abort(404, description="Account not found")
         
-        account["account_id"] = str(account.pop("_id"))
         return jsonify(account), 200
 
     # If 'account_id' is not a valid BSON ObjectId

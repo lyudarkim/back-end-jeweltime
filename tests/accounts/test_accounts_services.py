@@ -24,11 +24,16 @@ def test_service_create_account(app, base_account_data):
 
 def test_service_get_account(app, base_account_data):
     with app.app_context():
-        account_id = service_create_account(base_account_data)
-        account = service_get_account(str(account_id))
+        created_account = service_create_account(base_account_data)
+        account_id = created_account['account_id']
+        retrieved_account = service_get_account(account_id)
         
-        assert account
-        assert account["_id"] == account_id
+        assert retrieved_account
+        assert retrieved_account['account_id'] == account_id
+        assert retrieved_account["first_name"] == base_account_data["first_name"]
+        assert retrieved_account["last_name"] == base_account_data["last_name"]
+        assert retrieved_account["email"] == base_account_data["email"]
+        assert retrieved_account["zipcode"] == base_account_data["zipcode"]
 
 
 def test_service_update_account(app, base_account_data):

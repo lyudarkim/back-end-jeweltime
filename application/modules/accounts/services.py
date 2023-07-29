@@ -27,7 +27,13 @@ def service_create_account(account_data):
 
 def service_get_account(account_id):
     """This function retrieves a specific account using its ID."""
-    return pymongo.db.accounts.find_one({"_id": ObjectId(account_id)})  
+
+    account = pymongo.db.accounts.find_one({"account_id": account_id})
+
+    if account:
+        account["_id"] = str(account["_id"])
+    
+    return account 
 
 
 def service_update_account(account_id, data):
