@@ -8,7 +8,6 @@ from application.modules.accounts.services import (
     service_delete_account
 )
 from application.modules.accounts.validators import validate_account
-# from application.utils.database import pymongo
 from pymongo.errors import ConnectionFailure
 
 
@@ -30,7 +29,9 @@ def create_account():
         return jsonify(new_account), 201
     
     except ConnectionFailure:
-        return jsonify({"error": "Database connection failed"}), 500
+        return jsonify({
+            "error": "Database connection failed"
+        }), 500
 
 
 @accounts_bp.route("/<account_id>", methods=['GET'])
@@ -44,7 +45,9 @@ def get_account(account_id):
 
     # If 'account_id' is not a valid BSON ObjectId
     except InvalidId:
-        return jsonify({"error": "Invalid account ID format"}), 400
+        return jsonify({
+            "error": "Invalid account ID format"
+        }), 400
 
 
 @accounts_bp.route("/<account_id>", methods=['PUT', 'PATCH'])
@@ -56,12 +59,15 @@ def update_account(account_id):
         if errors:
             return jsonify(errors), 400
 
-        count = service_update_account(account_id, data)
+        account = service_update_account(account_id, data)
         
-        if count == 0:
+        if not account:
             abort(404, description="Account not found or not updated.")
         
-        return jsonify({"message": "Account updated successfully"})
+        return jsonify({
+            "account": account, 
+            "message": "Account updated successfully"
+        })
     
     except InvalidId:
             return jsonify({"error": "Invalid account ID format"}), 400
