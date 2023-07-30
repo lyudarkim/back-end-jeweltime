@@ -15,9 +15,8 @@ def validate_not_empty_or_whitespace(data):
 
 def handle_errors(function):
     """
-    A higher-order function used as a decorator to catch and handle exceptions
-    for Flask route functions.
-    Returns appropriate JSON responses for errors, logging unexpected ones.
+    This is a higher-order function used as a decorator to catch and handle exceptions for accounts and projects route functions.
+    It returns appropriate JSON responses for errors, logging unexpected ones.
 
     Parameters:
     - function: The function representing a Flask route to enhance with error handling.
@@ -33,7 +32,7 @@ def handle_errors(function):
         # Specific exceptions first
         except InvalidId:
             return jsonify({
-                "error": "Invalid account ID format"
+                "error": "Invalid ID format"
             }), 400
 
         except ConnectionFailure:
@@ -47,10 +46,13 @@ def handle_errors(function):
                 "error": e.description
             }), e.code
         
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 404
+        
         # General exception for unexpected errors
         except Exception:
             # Log the full error to diagnose issues in production
-            logging.error("Unexpected error occurred", exc_info=True)
+            logging.error("An unexpected error occurred", exc_info=True)
 
             # But return only a generic error message to the user
             return jsonify({
