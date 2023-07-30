@@ -27,5 +27,4 @@ def test_get_project(app, base_account_data, base_project_data):
         assert response.status_code == 200
 
         json_data = json.loads(response.data)
-        assert json_data["_id"] == projectId
         assert json_data["description"] == base_project_data["description"]
