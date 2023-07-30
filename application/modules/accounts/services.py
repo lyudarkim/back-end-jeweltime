@@ -11,7 +11,7 @@ def service_create_account(data):
 
     # Check if insertion was acknowledged by db
     if not inserted.acknowledged:
-        raise Exception("Failed to insert account into the database")
+        raise Exception("Failed to add account into the database")
     
     # Update newly inserted account to set accountId which will be the same value as _id
     pymongo.db.accounts.update_one({"_id": accountId}, {"$set": {"accountId": str(accountId)}})
@@ -19,7 +19,7 @@ def service_create_account(data):
     # Fetch the updated account
     new_account = pymongo.db.accounts.find_one({"_id": ObjectId(accountId)})
     
-    # Remove the non-serializable BSON ObjectId from the dictionary before returning
+    # Remove the non-serializable BSON ObjectId from the dictionary before returning the POST response body
     del new_account["_id"]
 
     return new_account
@@ -62,10 +62,6 @@ def service_delete_account(accountId):
     It returns the count of deleted records (should be 1 if the operation was successful).
     """
 
-    try:
-        result = pymongo.db.accounts.delete_one({"accountId": accountId})
+    result = pymongo.db.accounts.delete_one({"accountId": accountId})
+    return result.deleted_count
 
-        return result.deleted_count
-    
-    except Exception as exception:
-        raise exception
