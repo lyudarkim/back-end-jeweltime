@@ -41,6 +41,7 @@ def service_update_account(accountId, data):
     """
     This function updates an account in the database using its ID and returns the updated account object.
     """
+
     result = pymongo.db.accounts.update_one({"accountId": accountId}, {"$set": data})
     
     if result.modified_count == 0:
@@ -60,6 +61,11 @@ def service_delete_account(accountId):
     This function deletes an account from the database using its ID.
     It returns the count of deleted records (should be 1 if the operation was successful).
     """
-    result = pymongo.db.accounts.delete_one({"_id": ObjectId(accountId)})
 
-    return result.deleted_count
+    try:
+        result = pymongo.db.accounts.delete_one({"accountId": accountId})
+
+        return result.deleted_count
+    
+    except Exception as exception:
+        raise exception
