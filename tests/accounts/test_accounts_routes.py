@@ -72,8 +72,7 @@ def test_delete_account_route_invalid_id(app):
     with app.test_client() as client:
         # Testing DELETE route with an invalid accountId
         response = client.delete('/accounts/invalid_id')
-        assert response.status_code == 400
+        assert response.status_code == 404
         
         json_data = json.loads(response.data)
-        assert json_data["error"] == "Invalid account ID format"
-
+        assert json_data["error"] == "Account not found."

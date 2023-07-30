@@ -51,9 +51,11 @@ def test_service_update_account(app, base_account_data):
 
 def test_service_delete_account(app, base_account_data):
     with app.app_context():
-        accountId = service_create_account(base_account_data)
-        count = service_delete_account(str(accountId))
+        account_to_delete = service_create_account(base_account_data)
+        accountId = account_to_delete['accountId']
+
+        count = service_delete_account(accountId)
         assert count == 1
         
-        account = pymongo.db.accounts.find_one({"_id": accountId})
+        account = pymongo.db.accounts.find_one({"accountId": accountId})
         assert not account
