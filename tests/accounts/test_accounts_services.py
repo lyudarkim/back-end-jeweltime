@@ -38,14 +38,15 @@ def test_service_get_account(app, base_account_data):
 
 def test_service_update_account(app, base_account_data):
     with app.app_context():
-        accountId = service_create_account(base_account_data)
-        updated_data = {"firstName": "Lulu"}
+        account_to_update = service_create_account(base_account_data)
+        accountId = account_to_update['accountId']
 
-        count = service_update_account(str(accountId), updated_data)
-        assert count == 1
+        updated_data = {"firstName": "Lulu"}
+        updated_account = service_update_account(accountId, updated_data)
         
-        account = pymongo.db.accounts.find_one({"_id": accountId})
-        assert account["firstName"] == "Lulu"
+        # This means an update occurred
+        assert updated_account is not None
+        assert updated_account["firstName"] == "Lulu"
 
 
 def test_service_delete_account(app, base_account_data):

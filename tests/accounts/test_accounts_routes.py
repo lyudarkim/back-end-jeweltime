@@ -42,12 +42,13 @@ def test_update_account_route(app, base_account_data):
         response = client.post('/accounts', json=base_account_data)
         accountId = json.loads(response.data)['accountId']
 
-        update_data = {"firstName": "Lulu"}
-        response = client.put(f'/accounts/{accountId}', json=update_data)
+        updated_data = {"firstName": "Lulu"}
+        response = client.put(f'/accounts/{accountId}', json=updated_data)
         assert response.status_code == 200
         
         json_data = json.loads(response.data)
         assert json_data["message"] == "Account updated successfully"
+        assert json_data["account"]["firstName"] == "Lulu"
 
 
 def test_delete_account_route(app, base_account_data):
