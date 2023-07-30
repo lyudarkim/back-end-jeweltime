@@ -17,7 +17,7 @@ def configure_logging(app):
 
     # Set the format for displaying logs
     logging.basicConfig(level=logging_level, 
-                        format='\n%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
+                        format='\n%(asctime)s %(levelname)s: \n%(message)s \n[in %(pathname)s:%(lineno)d]')
 
     # Set Werkzeug log level
     logging.getLogger('werkzeug').setLevel(werkzeug_log_level)
