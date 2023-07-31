@@ -47,8 +47,7 @@ def test_update_account_route(app, base_account_data):
         assert response.status_code == 200
         
         json_data = json.loads(response.data)
-        assert json_data["message"] == "Account updated successfully"
-        assert json_data["account"]["firstName"] == "Lulu"
+        assert json_data["firstName"] == "Lulu"
 
 
 def test_delete_account_route(app, base_account_data):

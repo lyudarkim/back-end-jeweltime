@@ -51,10 +51,7 @@ def update_account(accountId):
     if not account:
         abort(404, description="Account not found or not updated.")
     
-    return jsonify({
-        "account": account, 
-        "message": "Account updated successfully"
-    })
+    return jsonify(account), 200
 
 
 @accounts_bp.route("/<accountId>", methods=['DELETE'])
