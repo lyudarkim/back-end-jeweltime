@@ -10,19 +10,20 @@ from application.modules.projects.validators import validate_project
 from application.utils.helpers import handle_errors
 
 
-projects_bp = Blueprint("projects", __name__, url_prefix="/accounts/<accountId>/projects")
+projects_bp = Blueprint("projects", __name__, url_prefix="/projects")
+get_all_projects_bp = Blueprint("projects_for_account", __name__, url_prefix="/accounts/<accountId>/projects")
 
 
 @projects_bp.route("", methods=['POST'])
 @handle_errors
-def create_project(accountId):
+def create_project():
     data = request.json
     errors = validate_project(data, partial=False)
     
     if errors:
         return jsonify(errors), 400
 
-    new_project = service_create_project(data, accountId)
+    new_project = service_create_project(data)
     
     return jsonify(new_project), 201
 
@@ -35,7 +36,7 @@ def get_project(accountId, projectId):
     return jsonify(project), 200
 
 
-@projects_bp.route("", methods=['GET'])
+@get_all_projects_bp.route("", methods=['GET'])
 @handle_errors
 def get_all_projects(accountId):
     all_projects = service_get_all_projects(accountId)

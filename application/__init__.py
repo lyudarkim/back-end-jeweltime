@@ -35,9 +35,12 @@ def create_app(testing=True):
     # Register Blueprints 
     from .modules.accounts.routes import accounts_bp
     from .modules.projects.routes import projects_bp
+    from .modules.projects.routes import get_all_projects_bp
+
 
     app.register_blueprint(accounts_bp)
     app.register_blueprint(projects_bp)
+    app.register_blueprint(get_all_projects_bp)
 
     # Set up logging
     configure_logging(app)  
