@@ -32,7 +32,7 @@ def service_create_project(data):
 
     
 def service_get_project(projectId):
-    """This function retrieves a project associated with an account using project ID and account ID."""
+    """This function retrieves a project using the project ID."""
 
     project = pymongo.db.projects.find_one({"_id": ObjectId(projectId)})
 
@@ -46,7 +46,7 @@ def service_get_project(projectId):
 
 
 def service_get_all_projects(accountId):
-    """This function retrieves all projects associated with an account using account ID."""
+    """This function retrieves all projects associated with an account using the account ID."""
 
     # Check if the account ID exists in the 'accounts' collection of the db
     if not pymongo.db.accounts.find_one({"_id": ObjectId(accountId)}):
@@ -64,7 +64,7 @@ def service_get_all_projects(accountId):
 
 
 def service_update_project(projectId, data):
-    """This function updates a project associated with an account using project ID and account ID."""
+    """This function updates a project using the project ID."""
 
     result = pymongo.db.projects.update_one(
         {"projectId": projectId},
@@ -83,12 +83,10 @@ def service_update_project(projectId, data):
     return updated_project
 
 
-def service_delete_project(projectId, accountId):
-    """This function deletes a project associated with an account using project ID and account ID."""
+def service_delete_project(projectId):
+    """This function deletes a project using the project ID."""
 
-    if not pymongo.db.accounts.find_one({"_id": ObjectId(accountId)}):
-        raise ValueError("Account not found.")
-
-    result = pymongo.db.projects.delete_one({"_id": ObjectId(projectId), "accountId": ObjectId(accountId)})
+    result = pymongo.db.projects.delete_one({"_id": ObjectId(projectId)})
+    
     return result.deleted_count
     
