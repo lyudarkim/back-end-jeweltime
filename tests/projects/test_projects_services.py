@@ -4,7 +4,8 @@ from bson import ObjectId
 from application.modules.accounts.services import service_create_account
 from application.modules.projects.services import (
     service_create_project, 
-    service_get_project, 
+    service_get_project,
+    service_get_all_projects, 
     service_update_project, 
     service_delete_project
 )
@@ -52,6 +53,30 @@ def test_service_get_project(app, base_account_data, base_project_data):
         
         assert project
         assert project["projectId"] == projectId
+
+
+def test_service_get_all_projects(app, base_account_data, base_project_data):
+    with app.app_context():
+        account = service_create_account(base_account_data)
+        assert account
+
+        accountId = account["accountId"]
+        base_project_data["accountId"] = accountId
+
+        # If '_id' exists in base_project_data, remove it to avoid duplicates
+        base_project_data.pop('_id', None)
+
+        service_create_project(base_project_data.copy(), accountId)  
+        service_create_project(base_project_data.copy(), accountId)
+
+        # Retrieve all projects associated with the account
+        retrieved_projects = service_get_all_projects(accountId)
+        
+        assert retrieved_projects is not None, "No projects retrieved"
+        assert len(retrieved_projects) == 2, "Not all projects retrieved"
+        
+        for project in retrieved_projects:
+            assert project["description"] == base_project_data["description"]
 
 
 def test_service_update_project(app, base_account_data, base_project_data):

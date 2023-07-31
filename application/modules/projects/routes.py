@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, abort
 from application.modules.projects.services import (
     service_create_project, 
     service_get_project, 
+    service_get_all_projects,
     # service_update_project, 
     # service_delete_project
 )
@@ -32,3 +33,11 @@ def get_project(accountId, projectId):
     project = service_get_project(projectId, accountId)
 
     return jsonify(project), 200
+
+
+@projects_bp.route("", methods=['GET'])
+@handle_errors
+def get_all_projects(accountId):
+    all_projects = service_get_all_projects(accountId)
+
+    return jsonify(all_projects), 200

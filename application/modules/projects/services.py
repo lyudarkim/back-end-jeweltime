@@ -49,6 +49,24 @@ def service_get_project(projectId, accountId):
     return project
 
 
+def service_get_all_projects(accountId):
+    """This function retrieves all projects associated with an account using account ID."""
+
+    # Check if the account ID exists in the 'accounts' collection of the db
+    if not pymongo.db.accounts.find_one({"_id": ObjectId(accountId)}):
+        raise ValueError("Account not found.")
+
+    # Retrieve all projects from the 'projects' collection that are associated with the account ID
+    projects = pymongo.db.projects.find({"accountId": accountId})
+
+    all_projects = [project for project in projects]
+    
+    for project in all_projects:
+        project.pop("_id")
+
+    return all_projects
+
+
 def service_update_project(projectId, accountId, data):
     """This function updates a project associated with an account using project ID and account ID."""
 
