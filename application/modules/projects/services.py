@@ -31,11 +31,8 @@ def service_create_project(data):
     return new_project
 
     
-def service_get_project(projectId, accountId):
+def service_get_project(projectId):
     """This function retrieves a project associated with an account using project ID and account ID."""
-
-    if not pymongo.db.accounts.find_one({"_id": ObjectId(accountId)}):
-        raise ValueError("Account not found.")
 
     project = pymongo.db.projects.find_one({"_id": ObjectId(projectId)})
 

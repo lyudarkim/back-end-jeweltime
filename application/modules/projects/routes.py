@@ -30,8 +30,8 @@ def create_project():
 
 @projects_bp.route("/<projectId>", methods=['GET'])
 @handle_errors
-def get_project(accountId, projectId):
-    project = service_get_project(projectId, accountId)
+def get_project(projectId):
+    project = service_get_project(projectId)
 
     return jsonify(project), 200
 
