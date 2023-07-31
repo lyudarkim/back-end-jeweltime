@@ -55,3 +55,21 @@ def test_get_all_projects_route(app, base_account_data, base_project_data):
         for project in json_data:
             assert project["accountId"] == accountId
             assert project["description"] == base_project_data["description"]
+
+
+def test_update_project_route_correctly_updates(app, base_account_data, base_project_data):
+    with app.test_client() as client:
+        # Create an account and project
+        account_response = client.post('/accounts', json=base_account_data)
+        accountId = json.loads(account_response.data)['accountId']
+
+        project_response = client.post(f'/accounts/{accountId}/projects', json=base_project_data)
+        projectId = json.loads(project_response.data)['projectId']
+
+        # Update the created project
+        updated_data = {"description": "Updated description"}
+        update_response = client.put(f'/accounts/{accountId}/projects/{projectId}', json=updated_data)
+
+        assert update_response.status_code == 200
+        updated_project_data = json.loads(update_response.data)
+        assert updated_project_data["description"] == updated_data["description"]

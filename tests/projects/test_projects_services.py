@@ -79,21 +79,21 @@ def test_service_get_all_projects(app, base_account_data, base_project_data):
             assert project["description"] == base_project_data["description"]
 
 
-def test_service_update_project(app, base_account_data, base_project_data):
+def test_service_update_project_correctly_updates(app, base_account_data, base_project_data):
     with app.app_context():
-        accountId = service_create_account(base_account_data)
-        projectId = service_create_project(base_project_data, str(accountId))
+        account = service_create_account(base_account_data)
+        accountId = account["accountId"]
+
+        created_project = service_create_project(base_project_data, accountId)
+        projectId = created_project["projectId"]
 
         updated_data = {"projectName": "New Project Name"}
-        count = service_update_project(str(projectId), str(accountId), updated_data)
+        updated_project = service_update_project(projectId, accountId, updated_data)
 
-        assert count == 1
+        assert updated_project
+        assert updated_project["projectName"] == updated_data["projectName"]
+
         
-        project = pymongo.db.projects.find_one({"_id": projectId})
-        assert project["projectName"] == "New Project Name"
-        assert str(project["accountId"]) == str(accountId)
-
-
 def test_service_delete_project(app, base_account_data, base_project_data):
     with app.app_context():
         accountId = service_create_account(base_account_data)

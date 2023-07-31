@@ -3,7 +3,7 @@ from application.modules.projects.services import (
     service_create_project, 
     service_get_project, 
     service_get_all_projects,
-    # service_update_project, 
+    service_update_project, 
     # service_delete_project
 )
 from application.modules.projects.validators import validate_project
@@ -41,3 +41,17 @@ def get_all_projects(accountId):
     all_projects = service_get_all_projects(accountId)
 
     return jsonify(all_projects), 200
+
+
+@projects_bp.route("/<projectId>", methods=['PUT', 'PATCH'])
+@handle_errors
+def update_project(accountId, projectId):
+    data = request.json
+    errors = validate_project(data, partial=True)
+    
+    if errors:
+        return jsonify(errors), 400
+    
+    updated_project = service_update_project(projectId, accountId, data)
+
+    return jsonify(updated_project), 200

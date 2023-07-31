@@ -74,10 +74,20 @@ def service_update_project(projectId, accountId, data):
         raise ValueError("Account not found.")
 
     result = pymongo.db.projects.update_one(
-        {"_id": ObjectId(projectId), "accountId": ObjectId(accountId)},
+        {"projectId": projectId, "accountId": accountId},
         {"$set": data}
     )
-    return result.modified_count
+
+    if result.modified_count == 0:
+        return None
+    
+    # Fetch the updated project
+    updated_project = pymongo.db.projects.find_one({"projectId": projectId, "accountId": accountId})
+    
+    if updated_project:
+        del updated_project["_id"]
+    
+    return updated_project
 
 
 def service_delete_project(projectId, accountId):
