@@ -63,14 +63,11 @@ def service_get_all_projects(accountId):
     return all_projects
 
 
-def service_update_project(projectId, accountId, data):
+def service_update_project(projectId, data):
     """This function updates a project associated with an account using project ID and account ID."""
 
-    if not pymongo.db.accounts.find_one({"_id": ObjectId(accountId)}):
-        raise ValueError("Account not found.")
-
     result = pymongo.db.projects.update_one(
-        {"projectId": projectId, "accountId": accountId},
+        {"projectId": projectId},
         {"$set": data}
     )
 
@@ -78,7 +75,7 @@ def service_update_project(projectId, accountId, data):
         return None
     
     # Fetch the updated project
-    updated_project = pymongo.db.projects.find_one({"projectId": projectId, "accountId": accountId})
+    updated_project = pymongo.db.projects.find_one({"projectId": projectId})
     
     if updated_project:
         del updated_project["_id"]

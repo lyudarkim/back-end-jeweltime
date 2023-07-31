@@ -46,13 +46,13 @@ def get_all_projects(accountId):
 
 @projects_bp.route("/<projectId>", methods=['PUT', 'PATCH'])
 @handle_errors
-def update_project(accountId, projectId):
+def update_project(projectId):
     data = request.json
     errors = validate_project(data, partial=True)
     
     if errors:
         return jsonify(errors), 400
     
-    updated_project = service_update_project(projectId, accountId, data)
+    updated_project = service_update_project(projectId, data)
 
     return jsonify(updated_project), 200
