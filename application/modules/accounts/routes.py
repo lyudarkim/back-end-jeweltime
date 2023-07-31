@@ -63,5 +63,5 @@ def delete_account(accountId):
         abort(404, description="Account not found.")
     
     return jsonify({
-        "message": "Account deleted successfully"
+        "message": "Account and its projects deleted successfully"
     })
