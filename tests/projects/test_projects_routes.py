@@ -4,14 +4,18 @@ from flask import json
 def test_create_project_route(app, base_account_data, base_project_data):
     with app.test_client() as client:
         account_response = client.post('/accounts', json=base_account_data)
+
+        # Ensure the account creation is successful
+        assert account_response.status_code == 201
+
         accountId = json.loads(account_response.data)['accountId']
 
-        response = client.post(f'/accounts/{accountId}/projects', json=base_project_data)
-
+        response = client.post(f'/projects', json=base_project_data)
         assert response.status_code == 201
 
         json_data = json.loads(response.data)
         projectId = json_data['projectId']
+        json_data["accountId"] = accountId
         assert projectId is not None
 
 

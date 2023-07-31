@@ -25,7 +25,7 @@ def test_service_create_project(app, base_account_data, base_project_data):
 
         # Create the project with the associated accountId
         base_project_data["accountId"] = accountId
-        new_project = service_create_project(base_project_data, accountId)
+        new_project = service_create_project(base_project_data)
         assert new_project
 
         # Check that the new_project contains all the fields from the base_project_data
@@ -93,7 +93,7 @@ def test_service_update_project_correctly_updates(app, base_account_data, base_p
         assert updated_project
         assert updated_project["projectName"] == updated_data["projectName"]
 
-        
+
 def test_service_delete_project(app, base_account_data, base_project_data):
     with app.app_context():
         accountId = service_create_account(base_account_data)
