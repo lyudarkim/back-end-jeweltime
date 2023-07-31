@@ -4,7 +4,7 @@ from application.modules.projects.services import (
     service_get_project, 
     service_get_all_projects,
     service_update_project, 
-    # service_delete_project
+    service_delete_project
 )
 from application.modules.projects.validators import validate_project
 from application.utils.helpers import handle_errors
@@ -54,5 +54,8 @@ def update_project(projectId):
         return jsonify(errors), 400
     
     updated_project = service_update_project(projectId, data)
+
+    if not updated_project:
+        abort(404, description="Project not found or not updated.")
 
     return jsonify(updated_project), 200
