@@ -57,9 +57,9 @@ def update_account(accountId):
 @accounts_bp.route("/<accountId>", methods=['DELETE'])
 @handle_errors
 def delete_account(accountId):
-    count = service_delete_account(accountId)
+    deleted_count = service_delete_account(accountId)
 
-    if count == 0:
+    if deleted_count == 0:
         abort(404, description="Account not found.")
     
     return jsonify({
