@@ -74,4 +74,3 @@ def service_delete_account(accountId):
         return None
     
     return account_deletion_result.deleted_count
-
