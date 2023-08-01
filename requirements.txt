@@ -5,7 +5,7 @@ click==8.1.6
 coverage==7.2.7
 DateTime==5.2
 dnslib==0.9.23
-dnspython==2.4.0
+dnspython==2.4.1
 dotenv==0.0.5
 exceptiongroup==1.1.2
 Flask==2.3.2
