@@ -37,7 +37,6 @@ def create_app(testing=True):
     from .modules.projects.routes import projects_bp
     from .modules.projects.routes import get_all_projects_bp
 
-
     app.register_blueprint(accounts_bp)
     app.register_blueprint(projects_bp)
     app.register_blueprint(get_all_projects_bp)

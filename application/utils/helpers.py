@@ -6,7 +6,7 @@ from marshmallow import ValidationError
 import requests
 from werkzeug.exceptions import HTTPException  
 from pymongo.errors import ConnectionFailure
-from application.utils.exceptions import AccountNotFoundException
+from application.utils.exceptions import AccountNotFoundException, ProjectNotFoundException
 
 
 def validate_not_empty_or_whitespace(data):
@@ -52,6 +52,11 @@ def handle_errors(function):
         except AccountNotFoundException:
             return jsonify({
                 "error": "Account not found"
+            }), 404
+        
+        except ProjectNotFoundException:
+            return jsonify({
+                "error": "Project not found"
             }), 404
 
         # Flask's HTTPException (like abort())
