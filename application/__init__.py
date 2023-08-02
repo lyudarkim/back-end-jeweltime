@@ -33,12 +33,12 @@ def create_app(testing=True):
     setup_db_connection(app, testing)
 
     # Register Blueprints 
-    from .modules.accounts.routes import accounts_bp
-    from .modules.projects.routes import projects_bp
-    from .modules.projects.routes import get_all_projects_bp
+    from .modules.accounts.routes import accounts_bp, signin_bp
+    from .modules.projects.routes import projects_bp, get_all_projects_bp
     from .modules.metals.routes import metals_bp
 
     app.register_blueprint(accounts_bp)
+    app.register_blueprint(signin_bp)
     app.register_blueprint(projects_bp)
     app.register_blueprint(get_all_projects_bp)
     app.register_blueprint(metals_bp)

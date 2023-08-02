@@ -27,7 +27,7 @@ def service_create_account(data):
 
 
 def service_get_account(accountId):
-    """This function retrieves a specific account using its account ID."""
+    """This function retrieves an account object using its account ID."""
 
     account = pymongo.db.accounts.find_one({"accountId": accountId})
 
@@ -38,6 +38,19 @@ def service_get_account(accountId):
     del account["_id"]  
 
     return account 
+
+
+def service_get_account_by_firebase_id(firebase_id):
+    """This function retrieves an account object using its firebase ID."""
+
+    account = pymongo.db.accounts.find_one({"firebaseId": firebase_id})
+    
+    if not account:
+        raise AccountNotFoundException()
+
+    del account["_id"]
+
+    return account
 
 
 def service_update_account(accountId, data):
