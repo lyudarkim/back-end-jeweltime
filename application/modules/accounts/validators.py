@@ -8,6 +8,14 @@ class AccountSchema(Schema):
     # dump_only means that accountId will only be used when serializing
     # the object but not when loading (or deserializing) it.
     accountId = fields.Str(dump_only=True)
+
+    firebaseId = fields.Str(
+        required=True,
+        validate=validate_not_empty_or_whitespace,
+        error_messages={
+            "required": "Firebase ID is required."
+        }
+    )
     
     firstName = fields.Str(
         required=True,

@@ -7,8 +7,17 @@ class ProjectSchema(Schema):
     # Using ObjectId which is a hex string.
     accountId = fields.Str(
         required=True,
+        validate=validate_not_empty_or_whitespace,
         error_messages={
             "required": "Account ID is required."
+        }
+    )
+
+    firebaseId = fields.Str(
+        required=True,
+        validate=validate_not_empty_or_whitespace,
+        error_messages={
+            "required": "Firebase ID is required."
         }
     )
 
