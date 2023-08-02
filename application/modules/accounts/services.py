@@ -46,7 +46,7 @@ def service_update_account(accountId, data):
     """
     result = pymongo.db.accounts.update_one({"accountId": accountId}, {"$set": data})
     
-    if result.modified_count == 0:
+    if result.matched_count == 0:
         raise AccountNotFoundException()
 
     # Fetch the updated account
