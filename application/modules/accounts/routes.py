@@ -26,7 +26,7 @@ def create_account():
 @handle_errors
 def get_account(accountId):
     account = service_get_account(accountId)
-    
+
     return jsonify(account), 200
 
 
@@ -43,10 +43,7 @@ def update_account(accountId):
 @accounts_bp.route("/<accountId>", methods=['DELETE'])
 @handle_errors
 def delete_account(accountId):
-    deleted_count = service_delete_account(accountId)
-
-    if deleted_count == 0:
-        abort(404, description="Account not found.")
+    service_delete_account(accountId)
     
     return jsonify({
         "message": "Account and its projects deleted successfully"

@@ -44,7 +44,6 @@ def service_update_account(accountId, data):
     """
     This function updates an account in the database using its account ID and returns the updated account object.
     """
-
     result = pymongo.db.accounts.update_one({"accountId": accountId}, {"$set": data})
     
     if result.modified_count == 0:
@@ -52,7 +51,6 @@ def service_update_account(accountId, data):
 
     # Fetch the updated account
     updated_account = pymongo.db.accounts.find_one({"accountId": accountId})
-    
     del updated_account["_id"]
     
     return updated_account
@@ -61,18 +59,15 @@ def service_update_account(accountId, data):
 def service_delete_account(accountId):
     """
     This function deletes an account and all the projects associated with that account from the database using the account ID.
-    It returns the count of deleted account records (should be 1 if the operation was successful).
+    It raises an AccountNotFoundException if the account does not exist.
     """
-
+    # Delete the account
     account_deletion_result = pymongo.db.accounts.delete_one({"accountId": accountId})
     
+    # If the account was not found, raise an exception
     if account_deletion_result.deleted_count == 0:
-        return None
+        raise AccountNotFoundException()
     
-    # Now delete the projects associated with this account
-    projects_deletion_result = pymongo.db.projects.delete_many({"accountId": accountId})
+    # Delete the projects associated with this account
+    pymongo.db.projects.delete_many({"accountId": accountId})
 
-    if projects_deletion_result.deleted_count == 0:
-        return None
-    
-    return account_deletion_result.deleted_count
