@@ -31,7 +31,9 @@ def handle_errors(function):
         try:
             return function(*args, **kwargs)
 
-        # Specific exceptions first
+        # Specific exceptions first:
+        
+        # If the accountId or projectId is the wrong length, for example
         except InvalidId:
             return jsonify({
                 "error": "Invalid ID format"
@@ -48,12 +50,13 @@ def handle_errors(function):
                 "error": e.messages
             }), 400
         
-        # Handle this exception after one of the account service functions raises it
+        # Handle this exception after one of the accounts service functions raises it
         except AccountNotFoundException:
             return jsonify({
                 "error": "Account not found"
             }), 404
         
+        # Handle this exception after one of the projects service functions raises it
         except ProjectNotFoundException:
             return jsonify({
                 "error": "Project not found"
@@ -72,7 +75,9 @@ def handle_errors(function):
             }), 503  
 
         except ValueError as e:
-            return jsonify({"error": str(e)}), 404
+            return jsonify({
+                "error": str(e)
+            }), 404
         
         # General exception for unexpected errors
         except Exception:
