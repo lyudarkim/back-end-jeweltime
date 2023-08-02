@@ -43,6 +43,7 @@ def service_get_account(accountId):
 def service_update_account(accountId, data):
     """
     This function updates an account in the database using its account ID and returns the updated account object.
+    One or multiple fields can be updated.
     """
     result = pymongo.db.accounts.update_one({"accountId": accountId}, {"$set": data})
     
