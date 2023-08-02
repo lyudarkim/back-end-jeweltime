@@ -40,6 +40,12 @@ def handle_errors(function):
             return jsonify({
                 "error": "Database connection failed"
             }), 500
+        
+        # Handle schema validation errors from Marshmallow
+        except ValidationError as e:  
+            return jsonify({
+                "error": e.messages
+            }), 400
 
         # Flask's HTTPException (like abort())
         except HTTPException as e:  
@@ -47,11 +53,11 @@ def handle_errors(function):
                 "error": e.description
             }), e.code
         
+        # Handle errors from failed external API calls
         except requests.RequestException as e:
             return jsonify({
                 "error": f"Error fetching metal prices: {str(e)}"
             }), 503  
-        # 503: Service Unavailable is often used for failed external calls
 
         except ValueError as e:
             return jsonify({"error": str(e)}), 404

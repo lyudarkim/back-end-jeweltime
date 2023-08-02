@@ -16,11 +16,7 @@ accounts_bp = Blueprint("accounts", __name__, url_prefix="/accounts")
 @handle_errors
 def create_account():
     data = request.json
-    errors = validate_account(data, partial=False)
-    
-    if errors:
-        return jsonify(errors), 400
-    
+    validate_account(data, partial=False)
     new_account = service_create_account(data)
     
     return jsonify(new_account), 201
