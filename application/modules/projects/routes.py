@@ -53,9 +53,8 @@ def update_project(projectId):
 @projects_bp.route("/<projectId>", methods=['DELETE'])
 @handle_errors
 def delete_project(projectId):
-    deleted_count = service_delete_project(projectId)
-
-    if deleted_count == 0:
-        abort(404, description="Project not found.")
+    service_delete_project(projectId)
     
-    return jsonify({"message": "Project deleted successfully"})
+    return jsonify({
+        "message": "Project deleted successfully"
+    })

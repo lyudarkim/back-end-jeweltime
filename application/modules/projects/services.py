@@ -64,7 +64,7 @@ def service_get_all_projects(accountId):
 
 
 def service_update_project(projectId, data):
-    """This function updates a project using the project ID."""
+    """This function updates a project using the project ID and returns the updated project object."""
 
     result = pymongo.db.projects.update_one(
         {"projectId": projectId},
@@ -83,9 +83,15 @@ def service_update_project(projectId, data):
 
 
 def service_delete_project(projectId):
-    """This function deletes a project using the project ID."""
-
+    """
+    This function deletes a project using the project ID.
+    It raises a ProjectNotFoundException if the project does not exist.
+    """
+    # Delete the project
     result = pymongo.db.projects.delete_one({"_id": ObjectId(projectId)})
     
-    return result.deleted_count
+    # If the project was not found, raise an exception
+    if result.deleted_count == 0:
+        raise ProjectNotFoundException()
+
     
