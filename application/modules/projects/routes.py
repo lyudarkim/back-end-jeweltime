@@ -44,15 +44,8 @@ def get_all_projects(accountId):
 @handle_errors
 def update_project(projectId):
     data = request.json
-    errors = validate_project(data, partial=True)
-    
-    if errors:
-        return jsonify(errors), 400
-    
+    validate_project(data, partial=True)
     updated_project = service_update_project(projectId, data)
-
-    if not updated_project:
-        abort(404, description="Project not found or not updated.")
 
     return jsonify(updated_project), 200
 

@@ -71,14 +71,13 @@ def service_update_project(projectId, data):
         {"$set": data}
     )
 
-    if result.modified_count == 0:
-        return None
+    # Check if a project with the given projectId exists
+    if result.matched_count == 0:
+        raise ProjectNotFoundException()
     
     # Fetch the updated project
     updated_project = pymongo.db.projects.find_one({"projectId": projectId})
-    
-    if updated_project:
-        del updated_project["_id"]
+    del updated_project["_id"]
     
     return updated_project
 
