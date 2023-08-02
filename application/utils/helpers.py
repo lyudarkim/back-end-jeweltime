@@ -3,6 +3,7 @@ from flask import jsonify
 from functools import wraps
 import logging
 from marshmallow import ValidationError
+import requests
 from werkzeug.exceptions import HTTPException  
 from pymongo.errors import ConnectionFailure
 
@@ -46,6 +47,12 @@ def handle_errors(function):
                 "error": e.description
             }), e.code
         
+        except requests.RequestException as e:
+            return jsonify({
+                "error": f"Error fetching metal prices: {str(e)}"
+            }), 503  
+        # 503: Service Unavailable is often used for failed external calls
+
         except ValueError as e:
             return jsonify({"error": str(e)}), 404
         
