@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, abort
+from flask import Blueprint, jsonify, request
 from application.modules.projects.services import (
     service_create_project, 
     service_get_project, 

@@ -1,4 +1,4 @@
-from marshmallow import fields, Schema, ValidationError
+from marshmallow import fields, Schema
 from marshmallow.validate import Length
 from application.utils.helpers import validate_not_empty_or_whitespace
 
