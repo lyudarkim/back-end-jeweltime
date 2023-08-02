@@ -49,7 +49,7 @@ def service_get_all_projects(firebaseId):
     """This function retrieves all projects associated with an account using the firebase ID."""
 
     # Check if the firebase ID exists in the 'accounts' collection of the db
-    if not pymongo.db.accounts.find_one({"_id": ObjectId(firebaseId)}):
+    if not pymongo.db.accounts.find_one({"firebaseId": firebaseId}):
         raise AccountNotFoundException()
 
     # Retrieve all projects from the 'projects' collection that are associated with the firebase ID
