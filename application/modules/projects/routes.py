@@ -11,7 +11,7 @@ from application.utils.helpers import handle_errors
 
 
 projects_bp = Blueprint("projects", __name__, url_prefix="/projects")
-get_all_projects_bp = Blueprint("projects_for_account", __name__, url_prefix="/accounts/<accountId>/projects")
+get_all_projects_bp = Blueprint("projects_for_account", __name__, url_prefix="/accounts/<firebaseId>/projects")
 
 
 @projects_bp.route("", methods=['POST'])
@@ -34,8 +34,8 @@ def get_project(projectId):
 
 @get_all_projects_bp.route("", methods=['GET'])
 @handle_errors
-def get_all_projects(accountId):
-    all_projects = service_get_all_projects(accountId)
+def get_all_projects(firebaseId):
+    all_projects = service_get_all_projects(firebaseId)
 
     return jsonify(all_projects), 200
 
