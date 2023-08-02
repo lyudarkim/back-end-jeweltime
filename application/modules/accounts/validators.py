@@ -1,4 +1,4 @@
-from marshmallow import fields, Schema, ValidationError
+from marshmallow import fields, Schema
 from marshmallow.validate import Length
 from application.utils.helpers import validate_not_empty_or_whitespace
 
@@ -48,8 +48,5 @@ class AccountSchema(Schema):
 def validate_account(data, partial=False):
     """Validates account data against the AccountSchema."""
     schema = AccountSchema()
-    try:
-        schema.load(data, partial=partial)
-        return None
-    except ValidationError as error:
-        return error.messages
+    schema.load(data, partial=partial)
+

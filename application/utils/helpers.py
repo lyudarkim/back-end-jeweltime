@@ -3,8 +3,10 @@ from flask import jsonify
 from functools import wraps
 import logging
 from marshmallow import ValidationError
-from werkzeug.exceptions import HTTPException  
 from pymongo.errors import ConnectionFailure
+import requests
+from werkzeug.exceptions import HTTPException  
+from application.utils.exceptions import AccountNotFoundException, ProjectNotFoundException
 
 
 def validate_not_empty_or_whitespace(data):
@@ -29,7 +31,9 @@ def handle_errors(function):
         try:
             return function(*args, **kwargs)
 
-        # Specific exceptions first
+        # Specific exceptions first:
+
+        # If the accountId or projectId is the wrong length, for example
         except InvalidId:
             return jsonify({
                 "error": "Invalid ID format"
@@ -39,6 +43,24 @@ def handle_errors(function):
             return jsonify({
                 "error": "Database connection failed"
             }), 500
+        
+        # Handle schema validation errors from Marshmallow
+        except ValidationError as e:  
+            return jsonify({
+                "error": e.messages
+            }), 400
+        
+        # Handle this exception after one of the accounts service functions raises it
+        except AccountNotFoundException:
+            return jsonify({
+                "error": "Account not found"
+            }), 404
+        
+        # Handle this exception after one of the projects service functions raises it
+        except ProjectNotFoundException:
+            return jsonify({
+                "error": "Project not found"
+            }), 404
 
         # Flask's HTTPException (like abort())
         except HTTPException as e:  
@@ -46,8 +68,16 @@ def handle_errors(function):
                 "error": e.description
             }), e.code
         
+        # Handle errors from failed external API calls
+        except requests.RequestException as e:
+            return jsonify({
+                "error": f"Error fetching metal prices: {str(e)}"
+            }), 503  
+
         except ValueError as e:
-            return jsonify({"error": str(e)}), 404
+            return jsonify({
+                "error": str(e)
+            }), 404
         
         # General exception for unexpected errors
         except Exception:

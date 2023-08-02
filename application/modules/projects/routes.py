@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, abort
+from flask import Blueprint, jsonify, request
 from application.modules.projects.services import (
     service_create_project, 
     service_get_project, 
@@ -18,11 +18,7 @@ get_all_projects_bp = Blueprint("projects_for_account", __name__, url_prefix="/a
 @handle_errors
 def create_project():
     data = request.json
-    errors = validate_project(data, partial=False)
-    
-    if errors:
-        return jsonify(errors), 400
-
+    validate_project(data, partial=False)
     new_project = service_create_project(data)
     
     return jsonify(new_project), 201
@@ -48,15 +44,8 @@ def get_all_projects(accountId):
 @handle_errors
 def update_project(projectId):
     data = request.json
-    errors = validate_project(data, partial=True)
-    
-    if errors:
-        return jsonify(errors), 400
-    
+    validate_project(data, partial=True)
     updated_project = service_update_project(projectId, data)
-
-    if not updated_project:
-        abort(404, description="Project not found or not updated.")
 
     return jsonify(updated_project), 200
 
@@ -64,9 +53,8 @@ def update_project(projectId):
 @projects_bp.route("/<projectId>", methods=['DELETE'])
 @handle_errors
 def delete_project(projectId):
-    deleted_count = service_delete_project(projectId)
-
-    if deleted_count == 0:
-        abort(404, description="Project not found.")
+    service_delete_project(projectId)
     
-    return jsonify({"message": "Project deleted successfully"})
+    return jsonify({
+        "message": "Project deleted successfully"
+    })

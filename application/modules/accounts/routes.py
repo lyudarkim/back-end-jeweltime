@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, abort
+from flask import Blueprint, jsonify, request
 from application.modules.accounts.services import (
     service_create_account, 
     service_get_account, 
@@ -16,11 +16,7 @@ accounts_bp = Blueprint("accounts", __name__, url_prefix="/accounts")
 @handle_errors
 def create_account():
     data = request.json
-    errors = validate_account(data, partial=False)
-    
-    if errors:
-        return jsonify(errors), 400
-    
+    validate_account(data, partial=False)
     new_account = service_create_account(data)
     
     return jsonify(new_account), 201
@@ -31,9 +27,6 @@ def create_account():
 def get_account(accountId):
     account = service_get_account(accountId)
 
-    if not account:
-        abort(404, description="Account not found")
-    
     return jsonify(account), 200
 
 
@@ -41,15 +34,8 @@ def get_account(accountId):
 @handle_errors
 def update_account(accountId):
     data = request.json
-    errors = validate_account(data, partial=True)
-
-    if errors:
-        return jsonify(errors), 400
-
+    validate_account(data, partial=True)
     updated_account = service_update_account(accountId, data)
-    
-    if not updated_account:
-        abort(404, description="Account not found or not updated.")
     
     return jsonify(updated_account), 200
 
@@ -57,10 +43,7 @@ def update_account(accountId):
 @accounts_bp.route("/<accountId>", methods=['DELETE'])
 @handle_errors
 def delete_account(accountId):
-    deleted_count = service_delete_account(accountId)
-
-    if deleted_count == 0:
-        abort(404, description="Account not found.")
+    service_delete_account(accountId)
     
     return jsonify({
         "message": "Account and its projects deleted successfully"

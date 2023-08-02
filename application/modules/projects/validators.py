@@ -64,9 +64,5 @@ class ProjectSchema(Schema):
 def validate_project(data, partial=False):
     """Validates project data against the ProjectSchema."""
     schema = ProjectSchema()
-    try:
-        schema.load(data, partial=partial)
-        return None
+    schema.load(data, partial=partial)
 
-    except ValidationError as error:
-        return error.messages
