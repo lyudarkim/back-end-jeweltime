@@ -37,11 +37,7 @@ def get_account(accountId):
 @handle_errors
 def update_account(accountId):
     data = request.json
-    errors = validate_account(data, partial=True)
-
-    if errors:
-        return jsonify(errors), 400
-
+    validate_account(data, partial=True)
     updated_account = service_update_account(accountId, data)
     
     if not updated_account:

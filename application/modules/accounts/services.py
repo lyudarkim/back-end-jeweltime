@@ -1,5 +1,6 @@
 from bson import ObjectId
 from application.utils.database import pymongo
+from application.utils.exceptions import AccountNotFoundException
 
 
 def service_create_account(data):
@@ -45,8 +46,8 @@ def service_update_account(accountId, data):
     result = pymongo.db.accounts.update_one({"accountId": accountId}, {"$set": data})
     
     if result.modified_count == 0:
-        return None
-    
+        raise AccountNotFoundException()
+
     # Fetch the updated account
     updated_account = pymongo.db.accounts.find_one({"accountId": accountId})
     
