@@ -6,6 +6,7 @@ from marshmallow import ValidationError
 import requests
 from werkzeug.exceptions import HTTPException  
 from pymongo.errors import ConnectionFailure
+from application.utils.exceptions import AccountNotFoundException
 
 
 def validate_not_empty_or_whitespace(data):
@@ -46,6 +47,12 @@ def handle_errors(function):
             return jsonify({
                 "error": e.messages
             }), 400
+        
+        # Handle this exception after one of the account service functions raises it
+        except AccountNotFoundException:
+            return jsonify({
+                "error": "Account not found"
+            }), 404
 
         # Flask's HTTPException (like abort())
         except HTTPException as e:  
