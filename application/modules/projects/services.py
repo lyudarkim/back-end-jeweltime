@@ -37,7 +37,7 @@ def service_get_project(projectId):
     project = pymongo.db.projects.find_one({"_id": ObjectId(projectId)})
 
     if not project:
-        raise ValueError("Project not found.")
+        raise ProjectNotFoundException()
     
     # Delete the '_id' key-value pair because we don't want it in GET response body
     del project["_id"]
@@ -50,7 +50,7 @@ def service_get_all_projects(accountId):
 
     # Check if the account ID exists in the 'accounts' collection of the db
     if not pymongo.db.accounts.find_one({"_id": ObjectId(accountId)}):
-        raise ValueError("Account not found.")
+        raise AccountNotFoundException()
 
     # Retrieve all projects from the 'projects' collection that are associated with the account ID
     projects = pymongo.db.projects.find({"accountId": accountId})
