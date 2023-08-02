@@ -37,9 +37,6 @@ def update_account(accountId):
     validate_account(data, partial=True)
     updated_account = service_update_account(accountId, data)
     
-    if not updated_account:
-        abort(404, description="Account not found or not updated.")
-    
     return jsonify(updated_account), 200
 
 

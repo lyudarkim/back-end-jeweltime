@@ -53,8 +53,7 @@ def service_update_account(accountId, data):
     # Fetch the updated account
     updated_account = pymongo.db.accounts.find_one({"accountId": accountId})
     
-    if updated_account:
-        del updated_account["_id"]
+    del updated_account["_id"]
     
     return updated_account
     
