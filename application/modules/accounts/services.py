@@ -62,10 +62,10 @@ def service_delete_account(accountId):
     It raises an AccountNotFoundException if the account does not exist.
     """
     # Delete the account
-    account_deletion_result = pymongo.db.accounts.delete_one({"accountId": accountId})
+    result = pymongo.db.accounts.delete_one({"accountId": accountId})
     
     # If the account was not found, raise an exception
-    if account_deletion_result.deleted_count == 0:
+    if result.deleted_count == 0:
         raise AccountNotFoundException()
     
     # Delete the projects associated with this account
