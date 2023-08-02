@@ -3,9 +3,9 @@ from flask import jsonify
 from functools import wraps
 import logging
 from marshmallow import ValidationError
+from pymongo.errors import ConnectionFailure
 import requests
 from werkzeug.exceptions import HTTPException  
-from pymongo.errors import ConnectionFailure
 from application.utils.exceptions import AccountNotFoundException, ProjectNotFoundException
 
 
@@ -32,7 +32,7 @@ def handle_errors(function):
             return function(*args, **kwargs)
 
         # Specific exceptions first:
-        
+
         # If the accountId or projectId is the wrong length, for example
         except InvalidId:
             return jsonify({
