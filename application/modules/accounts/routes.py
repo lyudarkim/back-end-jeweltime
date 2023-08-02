@@ -26,9 +26,6 @@ def create_account():
 @handle_errors
 def get_account(accountId):
     account = service_get_account(accountId)
-
-    if not account:
-        abort(404, description="Account not found")
     
     return jsonify(account), 200
 
