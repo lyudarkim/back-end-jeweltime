@@ -45,15 +45,15 @@ def service_get_project(projectId):
     return project
 
 
-def service_get_all_projects(firebaseId):
-    """This function retrieves all projects associated with an account using the firebase ID."""
+def service_get_all_projects(accountId):
+    """This function retrieves all projects associated with an account using the account ID."""
 
-    # Check if the firebase ID exists in the 'accounts' collection of the db
-    if not pymongo.db.accounts.find_one({"firebaseId": firebaseId}):
+    # Check if the account ID exists in the 'accounts' collection of the db
+    if not pymongo.db.accounts.find_one({"accountId": accountId}):
         raise AccountNotFoundException()
 
-    # Retrieve all projects from the 'projects' collection that are associated with the firebase ID
-    projects = pymongo.db.projects.find({"firebaseId": firebaseId})
+    # Retrieve all projects from the 'projects' collection that are associated with the account ID
+    projects = pymongo.db.projects.find({"accountId": accountId})
 
     all_projects = [project for project in projects]
     
