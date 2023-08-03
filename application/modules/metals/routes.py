@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify
 from application.modules.metals.services import service_get_metal_prices
 from application.utils.helpers import handle_errors
 
