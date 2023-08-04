@@ -13,13 +13,6 @@ class ProjectSchema(Schema):
         }
     )
 
-    firebaseId = fields.Str(
-        required=True,
-        validate=validate_not_empty_or_whitespace,
-        error_messages={
-            "required": "Firebase ID is required."
-        }
-    )
 
     projectId = fields.Str(dump_only=True)
     projectName = fields.Str(
