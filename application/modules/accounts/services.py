@@ -1,4 +1,5 @@
 from bson import ObjectId
+from pymongo import ReturnDocument
 from application.utils.database import pymongo
 from application.utils.exceptions import AccountNotFoundException
 
@@ -58,6 +59,17 @@ def service_update_account(accountId, data):
     This function updates an account in the database using its account ID and returns the updated account object.
     One or multiple fields can be updated.
     """
+    # result = pymongo.db.accounts.find_one_and_update(
+    #     {"accountId": accountId},
+    #     {"$set": data},
+    #     return_document = ReturnDocument.AFTER
+    # )
+
+    # print("HERE IS THE RESULT OF FIND ONE AND UPDATE!!!!!!")
+    # print(result)
+    # print("***************")
+
+
     result = pymongo.db.accounts.update_one({"accountId": accountId}, {"$set": data})
     
     if result.matched_count == 0:

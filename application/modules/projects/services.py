@@ -1,10 +1,16 @@
 from bson.objectid import ObjectId
+from pymongo import ReturnDocument
 from application.utils.database import pymongo
 from application.utils.exceptions import AccountNotFoundException, ProjectNotFoundException
 
 
 def service_create_project(data):
     """This function inserts a new project into the database and associates it with an account."""
+
+    print("INSIDE SERVICE CREATE PROJECT FUNCTION!!!!")
+    print("Here is the DATA***********")
+    print(data)
+    print("&&&&&&&&&&&&")
 
     accountId = data["accountId"]
 
