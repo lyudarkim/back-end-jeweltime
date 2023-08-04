@@ -44,13 +44,10 @@ class ProjectSchema(Schema):
     completedAt = fields.Date(allow_none=True)
     hoursSpent = fields.Float(allow_none=True)
     materialsCost = fields.Float(allow_none=True)
-
-    # 'dump_default' is used to specify a default value during the serialization (dumping) process.
-    # 'load_default' is used to specify a default value during the deserialization (loading) process.
-    materials = fields.List(fields.Str(), dump_default=[], load_default=[])
-    metals = fields.List(fields.Str(), dump_default=[], load_default=[])
-    gemstones = fields.List(fields.Str(), dump_default=[], load_default=[])   
-    notes = fields.List(fields.Str(), dump_default=[], load_default=[])   
+    materials = fields.Str(allow_none=True)
+    metals = fields.Str(allow_none=True)
+    gemstones = fields.Str(allow_none=True)
+    notes = fields.Str(allow_none=True) 
     shape = fields.Str(allow_none=True)
     jewelryType = fields.Str(allow_none=True)
 
