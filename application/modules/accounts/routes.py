@@ -67,3 +67,4 @@ def delete_account(accountId):
         "message": "Account and its projects deleted successfully"
     })
 
+
