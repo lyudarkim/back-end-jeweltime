@@ -6,7 +6,7 @@ from application.utils.database import setup_db_connection
 # Remove testing=True argument when in production
 def create_app(testing=True):
     app = Flask(__name__)
-    CORS(app, origins=['http://localhost:3001'])
+    CORS(app, origins=['https://jeweltime.onrender.com'])
     app.config['CORS_HEADERS'] = 'Content-Type'
 
     # Initialize the connection to MongoDB using Flask-PyMongo
