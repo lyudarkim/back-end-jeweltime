@@ -18,7 +18,7 @@ signin_bp = Blueprint("signin", __name__, url_prefix="/signin")
 @handle_errors
 def create_account():
     data = request.json
-    # validate_account(data, partial=False)
+    validate_account(data, partial=False)
     new_account = service_create_account(data)
     
     return jsonify(new_account), 201
@@ -52,7 +52,7 @@ def get_account_by_firebase_id():
 @handle_errors
 def update_account(accountId):
     data = request.json
-    # validate_account(data, partial=True)
+    validate_account(data, partial=True)
     updated_account = service_update_account(accountId, data)
     
     return jsonify(updated_account), 200

@@ -20,7 +20,7 @@ def create_project():
     data = request.json
     print("HERE IS THE PROJECT DATA!!!!!!!!!")
     print(data)
-    # validate_project(data, partial=False)
+    validate_project(data, partial=False)
     new_project = service_create_project(data)
     
     return jsonify(new_project), 201
@@ -46,7 +46,7 @@ def get_all_projects(accountId):
 @handle_errors
 def update_project(projectId):
     data = request.json
-    # validate_project(data, partial=True)
+    validate_project(data, partial=True)
     updated_project = service_update_project(projectId, data)
 
     return jsonify(updated_project), 200
