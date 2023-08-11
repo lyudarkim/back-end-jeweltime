@@ -34,7 +34,7 @@ class ProjectSchema(Schema):
         }
     )
 
-    startedAt = fields.Str(
+    startedAt = fields.Date(
         required=True,
         error_messages={
             "required": "Start date is required."
@@ -42,7 +42,7 @@ class ProjectSchema(Schema):
     )
 
     completedAt = fields.Date(allow_none=True)
-    hoursSpent = fields.Date(allow_none=True)
+    hoursSpent = fields.Str(allow_none=True)
     materialsCost = fields.Str(allow_none=True)
     materials = fields.Str(allow_none=True)
     metals = fields.Str(allow_none=True)
