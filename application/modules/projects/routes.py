@@ -18,8 +18,6 @@ get_all_projects_bp = Blueprint("projects_for_account", __name__, url_prefix="/a
 @handle_errors
 def create_project():
     data = request.json
-    print("HERE IS THE PROJECT DATA!!!!!!!!!")
-    print(data)
     validate_project(data, partial=False)
     new_project = service_create_project(data)
     
