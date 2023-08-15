@@ -3,8 +3,8 @@ from dotenv import load_dotenv
 from pymongo import MongoClient
 import certifi
 
-# THIS FILE IS FOR TESTING THE CONNECTION TO THE DB AND TESTING DB
-# Delete after finishing the project
+# THIS FILE IS FOR TESTING THE CONNECTION TO THE DATABASE
+# IT IS NOT USED IN THE APP
 
 load_dotenv()
 MONGODB_TEST_URI = os.environ.get('MONGODB_TEST_URI')
