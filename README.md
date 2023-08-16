@@ -141,9 +141,9 @@ Created in collaboration with [Angie Contreras](https://github.com/AngieCCo) who
         "accountId": "JewelTimeAccountID67890",
         "startedAt": "2017-08-21",
         "completedAt": "2017-08-24",
-        "hoursSpent": 4.0,
+        "hoursSpent": "4.0",
         "materials": "paste solder",
-        "materialsCost": 190,
+        "materialsCost": "190",
         "metals": "sterling silver 18ga sheet, 24K gold foil",
         "gemstones": "6x5 cm obsidian cabochon",
         "notes": "The ring band was wide and thick, had to use a ring bender.",
@@ -158,10 +158,10 @@ Created in collaboration with [Angie Contreras](https://github.com/AngieCCo) who
         "completedAt": "2017-08-24",
         "description": "Silver ring with a bezel set obsidian",
         "gemstones": "6x5 cm obsidian cabochon",
-        "hoursSpent": 4.0,
+        "hoursSpent": "4.0",
         "jewelryType": "ring",
         "materials": "paste solder",
-        "materialsCost": 190,
+        "materialsCost": "190",
         "metals": "sterling silver 18ga sheet, 24K gold foil",
         "notes": "The ring band was wide and thick, had to use a ring bender.",
         "projectId": "JewelTimeProjectID12345",
@@ -182,10 +182,10 @@ Created in collaboration with [Angie Contreras](https://github.com/AngieCCo) who
         "completedAt": "2017-08-24",
         "description": "Silver ring with a bezel set obsidian",
         "gemstones": "6x5 cm obsidian cabochon",
-        "hoursSpent": 4.0,
+        "hoursSpent": "4.0",
         "jewelryType": "ring",
         "materials": "paste solder",
-        "materialsCost": 190,
+        "materialsCost": "190",
         "metals": "sterling silver 18ga sheet, 24K gold foil",
         "notes": "The ring band was wide and thick, had to use a ring bender.",
         "projectId": "JewelTimeProjectID12345",
@@ -207,10 +207,10 @@ Created in collaboration with [Angie Contreras](https://github.com/AngieCCo) who
             "completedAt": "2017-08-24",
             "description": "Silver ring with a bezel set obsidian",
             "gemstones": "6x5 cm obsidian cabochon",
-            "hoursSpent": 4.0,
+            "hoursSpent": "4.0",
             "jewelryType": "ring",
             "materials": "paste solder",
-            "materialsCost": 190,
+            "materialsCost": "190",
             "metals": "sterling silver 18ga sheet, 24K gold foil",
             "notes": "The ring band was wide and thick, had to use a ring bender.",
             "projectId": "JewelTimeProjectID12345",
@@ -223,11 +223,11 @@ Created in collaboration with [Angie Contreras](https://github.com/AngieCCo) who
             "completedAt": "2021-02-24",
             "description": "Gold pendant with diamonds and freehand knit chain",
             "gemstones": "pave set 2mm brilliant cut diamonds",
-            "hoursSpent": 150,
+            "hoursSpent": "150",
             "jewelryType": "necklace",
             "materials": "paste solder",
-            "materialsCost": 2500,
-            "metals": "18K gold 20ga sheet, 22K gold 24ga dead soft wire",
+            "materialsCost": "2500",
+            "metals": "18K gold 20ga sheet, 22K gold 24ga dead **soft** wire",
             "notes": "Handmade chain",
             "projectId": "JewelTimeProjectID6789",
             "projectName": "Moira's Statement Necklace",
@@ -244,10 +244,10 @@ Created in collaboration with [Angie Contreras](https://github.com/AngieCCo) who
 - **Request Body:**
     ```json
     {
-        "hoursSpent": 15.5,
+        "hoursSpent": "15.5",
         "jewelryType": "ring",
         "materials": "paste solder, enamel",
-        "materialsCost": 305.99,
+        "materialsCost": "305.99",
         "metals": "sterling silver 18ga sheet, 24K gold foil"
     }
     ```
@@ -261,10 +261,10 @@ Created in collaboration with [Angie Contreras](https://github.com/AngieCCo) who
         "completedAt": "2017-08-24",
         "description": "Silver ring with a bezel set obsidian",
         "gemstones": "6x5 cm obsidian cabochon",
-        "hoursSpent": 15.5,
+        "hoursSpent": "15.5",
         "jewelryType": "ring",
         "materials": "paste solder, enamel",
-        "materialsCost": 305.99,
+        "materialsCost": "305.99",
         "metals": "sterling silver 18ga sheet, 24K gold foil",
         "notes": "The ring band was wide and thick, had to use a ring bender.",
         "projectId": "JewelTimeProjectID12345",
@@ -341,8 +341,8 @@ A project within Jewel Time can have the following fields, which can be added an
 - `description`: A description of the project, a string of max 300 characters (Required)
 - `startedAt`: The start date of the project in ISO format "YYYY-MM-DD", a string (Required)
 - `completedAt`: The completion date of the project in ISO format "YYYY-MM-DD", a string (Optional)
-- `hoursSpent`: The number of hours spent on the project, a float (Optional)
-- `materialsCost`: The cost of materials used in the project, a float (Optional)
+- `hoursSpent`: The number of hours spent on the project, a string (Optional)
+- `materialsCost`: The cost of materials used in the project, a string (Optional)
 - `materials`: The materials used in the project, a string(Optional)
 - `metals`: The metals used in the project, a string (Optional)
 - `gemstones`: The gemstones used in the project, a string (Optional)
