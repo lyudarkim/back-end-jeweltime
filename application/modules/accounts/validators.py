@@ -56,5 +56,5 @@ class AccountSchema(Schema):
 def validate_account(data, partial=False):
     """Validates account data against the AccountSchema."""
     schema = AccountSchema()
-    schema.load(data, partial=partial)
+    schema.validate(data, partial=partial)
 
