@@ -63,5 +63,5 @@ class ProjectSchema(Schema):
 def validate_project(data, partial=False):
     """Validates project data against the ProjectSchema."""
     schema = ProjectSchema()
-    schema.validate(data, partial=partial)
+    schema.load(data, partial=partial)
 
