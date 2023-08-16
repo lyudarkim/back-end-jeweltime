@@ -8,7 +8,7 @@ def create_app(testing=False):
     """Creates the Flask app and registers the blueprints."""
     
     app = Flask(__name__)
-    CORS(app, origins=['https://jeweltime.onrender.com', 'http://localhost:3000'])
+    CORS(app, origins=['https://jeweltime.onrender.com'])
     app.config['CORS_HEADERS'] = 'Content-Type'
 
     # Initialize the connection to MongoDB using Flask-PyMongo
