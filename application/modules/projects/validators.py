@@ -1,3 +1,4 @@
+import datetime
 from marshmallow import fields, Schema, ValidationError, validates_schema
 from marshmallow.validate import Length
 from application.utils.helpers import validate_not_empty_or_whitespace
@@ -62,11 +63,16 @@ class ProjectSchema(Schema):
 
     @validates_schema
     def validate_dates(self, data, **kwargs):
-        if data.get('completedAt') and data.get('startedAt') > data.get('completedAt'):
-            raise ValidationError(
-                "Completion date cannot be before the start date.",
-                "completedAt"
-            )
+        if data.get('completedAt') and data.get('startedAt'):
+            # Convert string to date with MM/DD/YYYY format
+            started_at = datetime.datetime.strptime(data['startedAt'], '%m/%d/%Y').date()
+            completed_at = datetime.datetime.strptime(data['completedAt'], '%m/%d/%Y').date()
+            
+            if started_at > completed_at:
+                raise ValidationError(
+                    "Completion date cannot be before the start date.",
+                    "completedAt"
+                )
         
 
 def validate_project(data, partial=False):
