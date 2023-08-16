@@ -51,7 +51,7 @@ class ProjectSchema(Schema):
         }
     )
 
-    completedAt = fields.Date(allow_none=True)
+    completedAt = fields.Str(allow_none=True)
     hoursSpent = fields.Str(allow_none=True)
     materialsCost = fields.Str(allow_none=True)
     metals = fields.Str(allow_none=True)
