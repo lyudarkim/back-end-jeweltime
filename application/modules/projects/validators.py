@@ -65,7 +65,7 @@ class ProjectSchema(Schema):
     def validate_dates(self, data, **kwargs):
         if data.get('completedAt') and data.get('startedAt'):
             # Convert string to date with MM/DD/YYYY format
-            started_at = datetime.datetime.strptime(data['startedAt'], '%m/%d/%Y').date()
+            started_at = data['startedAt']
             completed_at = datetime.datetime.strptime(data['completedAt'], '%m/%d/%Y').date()
             
             if started_at > completed_at:
