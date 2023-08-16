@@ -13,7 +13,6 @@ class ProjectSchema(Schema):
         }
     )
 
-
     projectId = fields.Str(dump_only=True)
     projectName = fields.Str(
         required=True,
@@ -34,6 +33,17 @@ class ProjectSchema(Schema):
         }
     )
 
+    materials = fields.Str(
+        required=True,
+        validate=[
+            Length(max=300, error="Materials exceed the maximum length."),
+            validate_not_empty_or_whitespace
+        ],
+        error_messages={
+            "required": "Materials are required."
+        }
+    )
+
     startedAt = fields.Date(
         required=True,
         error_messages={
@@ -44,7 +54,6 @@ class ProjectSchema(Schema):
     completedAt = fields.Date(allow_none=True)
     hoursSpent = fields.Str(allow_none=True)
     materialsCost = fields.Str(allow_none=True)
-    materials = fields.Str(allow_none=True)
     metals = fields.Str(allow_none=True)
     gemstones = fields.Str(allow_none=True)
     notes = fields.Str(allow_none=True) 
