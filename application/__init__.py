@@ -3,8 +3,10 @@ from flask_cors import CORS
 from application.utils.database import setup_db_connection
 
 
-# Remove testing=True argument when in production
-def create_app(testing=True):
+# Set testing=False when in production, testing=True is for development
+def create_app(testing=False):
+    """Creates the Flask app and registers the blueprints."""
+    
     app = Flask(__name__)
     CORS(app, origins=['https://jeweltime.onrender.com', 'http://localhost:3000'])
     app.config['CORS_HEADERS'] = 'Content-Type'
